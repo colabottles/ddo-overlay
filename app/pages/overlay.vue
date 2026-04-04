@@ -20,9 +20,10 @@
         <span v-if="formattedClasses" class="char-classes">{{ formattedClasses }}</span>
         <span v-if="character.guild_name" class="sep">◆</span>
         <span v-if="character.guild_name" class="char-guild">{{ character.guild_name }}</span>
-        <span v-if="character.location?.name" class="sep">◆</span>
-        <span v-if="character.location?.name" class="char-location">{{ character.location.name
-          }}</span>
+      </div>
+      <div v-if="character.location?.name" class="char-location-row">
+        <span class="loc-icon">◈</span>
+        <span class="char-location">{{ character.location.name }}</span>
       </div>
       <div class="divider" />
       <div class="char-stats-row">
@@ -49,6 +50,7 @@
         <span v-if="stats.cha" class="stat-item"><span class="stat-label">CHA</span> {{ stats.cha
           }}</span>
       </div>
+      <div class="divider" />
       <div class="char-footer">
         <span class="server-name">{{ config.server }}</span>
         <span class="online-pip" title="Online">●</span>
@@ -59,10 +61,10 @@
 
 <script setup lang="ts">
 import { useOverlayConfig, useDDOCharacter, useOverlayStats } from '~/composables/useDDO'
-const { stats, loadStats } = useOverlayStats()
 
 const { config, loadConfig } = useOverlayConfig()
 const { character, loading, lastFetched, fetchCharacter } = useDDOCharacter()
+const { stats, loadStats } = useOverlayStats()
 
 const POLL_INTERVAL = 45_000
 
@@ -81,6 +83,7 @@ const timeAgo = computed(() => {
 })
 
 onMounted(() => {
+  loadStats()
   const route = useRoute()
   const nameFromQuery = route.query.character as string
   const serverFromQuery = route.query.server as string
@@ -122,12 +125,12 @@ body {
   background: transparent !important;
   overflow: hidden;
   width: 300px;
-  height: 180px;
+  height: 210px;
 }
 
 .overlay-root {
   width: 300px;
-  height: 180px;
+  height: 210px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -141,7 +144,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 180px;
+  height: 210px;
 }
 
 .rune-spin {
@@ -172,7 +175,7 @@ body {
 
 /* ── Name ────────────────────────────────────────────── */
 .char-name {
-  font-family: "Cinzel Decorative", serif;
+  font-family: 'Cinzel Decorative', serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: #ffffff;
@@ -209,7 +212,7 @@ body {
 }
 
 .char-level {
-  font-family: "Cinzel Decorative", serif;
+  font-family: 'Cinzel Decorative', serif;
   font-size: 0.85rem;
   font-weight: 600;
   color: #d4a84c;
@@ -218,7 +221,7 @@ body {
 }
 
 .char-classes {
-  font-family: "Cormorant Unicase", serif;
+  font-family: 'Cormorant Unicase', serif;
   font-style: italic;
   font-size: 1rem;
   color: #e2d4a8;
@@ -233,7 +236,7 @@ body {
 }
 
 .char-guild {
-  font-family: "Cormorant Unicase", serif;
+  font-family: 'Cormorant Unicase', serif;
   font-style: italic;
   font-size: 0.95rem;
   color: #c8a84c;
@@ -242,15 +245,32 @@ body {
   flex-shrink: 1;
 }
 
-.char-location {
-  font-family: "Cormorant Unicase", serif;
-  font-size: 0.95rem;
-  color: #b0a070;
+/* ── Location row ────────────────────────────────────── */
+.char-location-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
   overflow: hidden;
-  text-overflow: ellipsis;
-  flex-shrink: 2;
 }
 
+.loc-icon {
+  font-size: 0.65rem;
+  color: rgba(201, 168, 76, 0.6);
+  flex-shrink: 0;
+}
+
+.char-location {
+  font-family: 'Cormorant Unicase', serif;
+  font-size: 0.95rem;
+  color: #b0a070;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* ── Stats rows ──────────────────────────────────────── */
 .char-stats-row {
   display: flex;
   align-items: center;
@@ -284,10 +304,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 0.15rem;
 }
 
 .server-name {
-  font-family: "Cinzel Decorative", serif;
+  font-family: 'Cinzel Decorative', serif;
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -302,7 +323,7 @@ body {
 }
 
 .offline-tag {
-  font-family: "Cinzel Decorative", serif;
+  font-family: 'Cinzel Decorative', serif;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   color: #c07070;
@@ -318,13 +339,5 @@ body {
   50% {
     opacity: 0.3;
   }
-}
-
-.divider {
-  background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(201, 168, 76, 0.7) 20%,
-      rgba(201, 168, 76, 0.7) 80%,
-      transparent 100%);
 }
 </style>
