@@ -1,75 +1,51 @@
 <template>
   <div class="overlay-root">
-    <div v-if="loading && !character" class="overlay-card loading-card">
-      <span class="corner corner-tl" /><span class="corner corner-tr" />
-      <span class="corner corner-bl" /><span class="corner corner-br" />
-      <div class="rune-spin">+</div>
+    <div v-if="loading && !character" class="overlay-loading">
+      <span class="rune-spin">᛭</span>
     </div>
 
-    <div v-else-if="!config.characterName" class="overlay-card error-card">
-      <span class="corner corner-tl" /><span class="corner corner-tr" />
-      <span class="corner corner-bl" /><span class="corner corner-br" />
-      <span class="error-text">No character configured — visit /config</span>
+    <div v-else-if="!config.characterName" class="overlay-empty" />
+
+    <div v-else-if="character && !character.is_online" class="overlay-panel">
+      <span class="char-name muted">{{ character.name }}</span>
+      <span class="sep">◆</span>
+      <span class="offline-tag">Offline</span>
     </div>
 
-    <div v-else-if="character && !character.is_online" class="overlay-card offline-card">
-      <span class="corner corner-tl" /><span class="corner corner-tr" />
-      <span class="corner corner-bl" /><span class="corner corner-br" />
+    <div v-else-if="character" class="overlay-panel">
       <div class="char-name">{{ character.name }}</div>
-      <div class="offline-tag">○ Offline</div>
-    </div>
-
-    <div v-else-if="character" class="overlay-card char-card">
-      <span class="corner corner-tl" /><span class="corner corner-tr" />
-      <span class="corner corner-bl" /><span class="corner corner-br" />
-
-      <div class="card-header">
-        <div class="char-name">{{ character.name }}</div>
-        <div class="online-pip">●</div>
+      <div class="divider" />
+      <div class="char-detail">
+        <span v-if="character.total_level" class="char-level">Lvl {{ character.total_level }}</span>
+        <span v-if="formattedClasses" class="char-classes">{{ formattedClasses }}</span>
+        <span v-if="character.guild_name" class="sep">◆</span>
+        <span v-if="character.guild_name" class="char-guild">{{ character.guild_name }}</span>
+        <span v-if="character.location?.name" class="sep">◆</span>
+        <span v-if="character.location?.name" class="char-location">{{ character.location.name
+          }}</span>
       </div>
-
-      <div class="card-body">
-        <div class="char-meta">
-          <span v-if="character.total_level" class="char-level">
-            Lvl {{ character.total_level }}
-          </span>
-          <span v-if="formattedClasses" class="char-classes">
-            {{ formattedClasses }}
-          </span>
-        </div>
-
-        <div v-if="character.guild_name" class="char-guild">
-          <span class="guild-icon">⚜</span>{{ character.guild_name }}
-        </div>
-
-        <div v-if="character.location?.name" class="char-location">
-          <span class="loc-icon">◈</span>{{ character.location.name }}
-        </div>
-      </div>
-
-      <div class="card-footer">
+      <div class="divider" />
+      <div class="char-footer">
         <span class="server-name">{{ config.server }}</span>
-        <span class="last-update" v-if="lastFetched">{{ timeAgo }}</span>
+        <span class="online-pip" title="Online">●</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { DDO_SERVERS, useOverlayConfig, useDDOCharacter } from '~/composables/useDDO'
+import { useOverlayConfig, useDDOCharacter } from '~/composables/useDDO'
 
 const { config, loadConfig } = useOverlayConfig()
-const { character, loading, error, lastFetched, fetchCharacter } = useDDOCharacter()
+const { character, loading, lastFetched, fetchCharacter } = useDDOCharacter()
 
-const POLL_INTERVAL = 45_000 // 45 seconds
+const POLL_INTERVAL = 45_000
 
 let pollTimer: ReturnType<typeof setInterval> | null = null
 
 const formattedClasses = computed(() => {
   if (!character.value?.classes?.length) return ''
-  return character.value.classes
-    .map(c => `${c.name} ${c.level}`)
-    .join(' / ')
+  return character.value.classes.map(c => `${c.name} ${c.level}`).join(' / ')
 })
 
 const timeAgo = computed(() => {
@@ -85,13 +61,20 @@ onMounted(() => {
   const serverFromQuery = route.query.server as string
 
   if (nameFromQuery && serverFromQuery) {
-    // Use query params directly — don't need localStorage in OBS
     config.value.characterName = nameFromQuery
     config.value.server = serverFromQuery
     fetchCharacter(serverFromQuery, nameFromQuery)
     pollTimer = setInterval(() => {
       fetchCharacter(serverFromQuery, nameFromQuery)
     }, POLL_INTERVAL)
+  } else {
+    loadConfig()
+    if (config.value.characterName) {
+      fetchCharacter(config.value.server, config.value.characterName)
+      pollTimer = setInterval(() => {
+        fetchCharacter(config.value.server, config.value.characterName)
+      }, POLL_INTERVAL)
+    }
   }
 })
 
@@ -113,117 +96,163 @@ html,
 body {
   background: transparent !important;
   overflow: hidden;
-  width: 420px;
-  height: 160px;
+  width: 300px;
+  height: 90px;
 }
 
 .overlay-root {
-  width: 420px;
-  height: 160px;
+  width: 300px;
+  height: 90px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-start;
   background: transparent;
 }
 
-/* ── Outer frame ─────────────────────────────────────── */
-.overlay-card {
-  position: relative;
-  width: 420px;
-  background: linear-gradient(180deg, #1a1208 0%, #0e0b06 60%);
-  border: 2px solid #8a6a28;
-  overflow: visible;
+/* ── Empty / loading ─────────────────────────────────── */
+.overlay-empty,
+.overlay-loading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
 }
 
-/* outermost thin gold line */
-.overlay-card::before {
-  content: '';
-  position: absolute;
-  inset: -5px;
-  border: 1px solid rgba(201, 168, 76, 0.35);
-  pointer-events: none;
-  z-index: 2;
+.rune-spin {
+  font-size: 1rem;
+  color: rgba(201, 168, 76, 0.6);
+  animation: spin 2s linear infinite;
 }
 
-/* inner inset line */
-.overlay-card::after {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border: 1px solid rgba(201, 168, 76, 0.2);
-  pointer-events: none;
-  z-index: 2;
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* ── Corner diamonds ─────────────────────────────────── */
-.corner {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: #c9a84c;
-  transform: rotate(45deg);
-  z-index: 10;
+/* ── Main panel ──────────────────────────────────────── */
+.overlay-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  padding: 0 0.5rem;
 }
 
-.corner-tl {
-  top: -5px;
-  left: -5px;
+/* ── Name ────────────────────────────────────────────── */
+.char-name {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95);
+  line-height: 1.3;
+  white-space: nowrap;
 }
 
-.corner-tr {
-  top: -5px;
-  right: -5px;
+.char-name.muted {
+  color: #a08840;
 }
 
-.corner-bl {
-  bottom: -5px;
-  left: -5px;
+/* ── Thin gold divider line ──────────────────────────── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(201, 168, 76, 0.7) 20%,
+      rgba(201, 168, 76, 0.7) 80%,
+      transparent 100%);
+  margin: 0.2rem 0;
 }
 
-.corner-br {
-  bottom: -5px;
-  right: -5px;
+/* ── Detail row ──────────────────────────────────────── */
+.char-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-/* ── Header bar ──────────────────────────────────────── */
-.card-header {
-  position: relative;
-  background: linear-gradient(180deg, #3a2a0e 0%, #2a1e08 50%, #1e1508 100%);
-  border-bottom: 1px solid #8a6a28;
-  padding: 0.35rem 0.85rem;
+.char-level {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d4a84c;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.char-classes {
+  font-family: "Cormorant Unicase", serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: #e2d4a8;
+  flex-shrink: 0;
+}
+
+.sep {
+  font-size: 0.4rem;
+  color: rgba(201, 168, 76, 0.6);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.char-guild {
+  font-family: "Cormorant Unicase", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #c8a84c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+}
+
+.char-location {
+  font-family: "Cormorant Unicase", serif;
+  font-size: 0.95rem;
+  color: #b0a070;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 2;
+}
+
+/* ── Footer row ──────────────────────────────────────── */
+.char-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* horizontal rule lines inside header */
-.card-header::before {
-  content: '';
-  position: absolute;
-  bottom: 3px;
-  left: 8px;
-  right: 8px;
-  height: 1px;
-  background: rgba(201, 168, 76, 0.15);
-  pointer-events: none;
-}
-
-.char-name {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #e8c97a;
-  letter-spacing: 0.04em;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
-  line-height: 1.2;
+.server-name {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ecebea;
 }
 
 .online-pip {
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   color: #7ac97a;
-  text-shadow: 0 0 6px rgba(122, 201, 122, 0.8);
+  text-shadow: 0 0 5px rgba(122, 201, 122, 0.8);
   animation: pulse 2.5s ease-in-out infinite;
-  flex-shrink: 0;
+}
+
+.offline-tag {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: #c07070;
 }
 
 @keyframes pulse {
@@ -238,146 +267,11 @@ body {
   }
 }
 
-/* ── Body ────────────────────────────────────────────── */
-.card-body {
-  padding: 0.5rem 0.85rem 0.6rem;
-}
-
-.char-meta {
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  margin-bottom: 0.3rem;
-  flex-wrap: wrap;
-}
-
-.char-level {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: #c9a84c;
-  letter-spacing: 0.1em;
-  background: rgba(201, 168, 76, 0.1);
-  border: 1px solid rgba(201, 168, 76, 0.3);
-  padding: 0.05rem 0.35rem;
-  border-radius: 1px;
-  flex-shrink: 0;
-}
-
-.char-classes {
-  font-family: "Cormorant Unicase", serif;
-  font-style: italic;
-  font-size: 0.85rem;
-  color: #d4c49a;
-  line-height: 1.3;
-}
-
-.char-guild {
-  font-family: "Cormorant Unicase", serif;
-  font-size: 0.78rem;
-  color: rgba(201, 168, 76, 0.75);
-  margin-bottom: 0.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-style: italic;
-}
-
-.guild-icon {
-  font-size: 0.6rem;
-  flex-shrink: 0;
-}
-
-.char-location {
-  font-family: "Cormorant Unicase", serif;
-  font-size: 0.78rem;
-  color: #a09070;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 380px;
-}
-
-.loc-icon {
-  flex-shrink: 0;
-  font-size: 0.65rem;
-  color: rgba(201, 168, 76, 0.4);
-}
-
-/* ── Footer bar ──────────────────────────────────────── */
-.card-footer {
-  background: linear-gradient(180deg, #1a1208 0%, #0e0b06 100%);
-  border-top: 1px solid rgba(201, 168, 76, 0.25);
-  padding: 0.25rem 0.85rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.server-name {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(201, 168, 76, 0.5);
-}
-
-.last-update {
-  font-family: "Cormorant Unicase", serif;
-  font-size: 0.62rem;
-  color: rgba(201, 168, 76, 0.3);
-  font-style: italic;
-}
-
-/* ── Loading ─────────────────────────────────────────── */
-.loading-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 60px;
-}
-
-.rune-spin {
-  font-size: 1.5rem;
-  color: rgba(201, 168, 76, 0.5);
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ── Error / offline ─────────────────────────────────── */
-.error-card,
-.offline-card {
-  padding: 0.75rem 0.85rem;
-}
-
-.error-text {
-  font-family: "Cormorant Unicase", serif;
-  font-style: italic;
-  font-size: 0.8rem;
-  color: rgba(201, 168, 76, 0.45);
-}
-
-.offline-card .char-name {
-  color: rgba(201, 168, 76, 0.45);
-  margin-bottom: 0.2rem;
-}
-
-.offline-tag {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.65rem;
-  color: rgba(200, 120, 120, 0.7);
-  letter-spacing: 0.05em;
+.divider {
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(201, 168, 76, 0.7) 20%,
+      rgba(201, 168, 76, 0.7) 80%,
+      transparent 100%);
 }
 </style>

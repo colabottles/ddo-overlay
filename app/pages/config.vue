@@ -174,7 +174,7 @@ body {
   padding: 0;
   background: var(--stone);
   color: var(--parchment);
-  font-family: 'IM Fell English', Georgia, serif;
+  font-family: 'Cormorant Unicase', serif;
   min-height: 100vh;
 }
 
