@@ -7,31 +7,58 @@
         <p class="config-subtitle">Configure your character display</p>
       </header>
 
-      <form class="config-form" @submit.prevent="handleSave">
-        <div class="form-group">
-          <label for="server">Server</label>
-          <div class="select-wrap">
-            <select id="server" v-model="form.server">
-              <option v-for="s in DDO_SERVERS" :key="s" :value="s">{{ s }}</option>
-            </select>
-            <span class="select-arrow">▾</span>
+      <form class="config-form" @submit.prevent="handleStatsSave">
+        <div class="form-section-title">Character Stats</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="hp">HP</label>
+            <input id="hp" v-model.number="statsForm.hp" type="number" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="sp">SP</label>
+            <input id="sp" v-model.number="statsForm.sp" type="number" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="ac">AC</label>
+            <input id="ac" v-model.number="statsForm.ac" type="number" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="rp">RP</label>
+            <input id="rp" v-model.number="statsForm.rp" type="number" min="0" placeholder="0" />
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="charname">Character Name</label>
-          <input
-            id="charname"
-            v-model="form.characterName"
-            type="text"
-            placeholder="e.g. Zulkir (First Name)"
-            autocomplete="off"
-            spellcheck="false" />
+        <div class="form-row">
+          <div class="form-group">
+            <label for="str">STR</label>
+            <input id="str" v-model.number="statsForm.str" type="number" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="dex">DEX</label>
+            <input id="dex" v-model.number="statsForm.dex" type="number" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="con">CON</label>
+            <input id="con" v-model.number="statsForm.con" type="number" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="int">INT</label>
+            <input id="int" v-model.number="statsForm.int" type="number" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="wis">WIS</label>
+            <input id="wis" v-model.number="statsForm.wis" type="number" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="cha">CHA</label>
+            <input id="cha" v-model.number="statsForm.cha" type="number" min="0" placeholder="0" />
+          </div>
         </div>
 
-        <button type="submit" class="btn-save" :disabled="!form.characterName.trim()">
+        <button type="submit" class="btn-save">
           <span class="btn-icon">✦</span>
-          Save & Preview
+          Save Stats
         </button>
       </form>
 
@@ -93,9 +120,17 @@
 
 <script setup lang="ts">
 import { DDO_SERVERS, useOverlayConfig, useDDOCharacter } from '~/composables/useDDO'
+import { useOverlayStats, type DDOStats } from '~/composables/useDDO'
+
 
 const { config, loadConfig, saveConfig } = useOverlayConfig()
 const { character, loading, error, fetchCharacter } = useDDOCharacter()
+const { stats, loadStats, saveStats } = useOverlayStats()
+
+const statsForm = reactive<DDOStats>({
+  hp: null, sp: null, ac: null, rp: null,
+  str: null, dex: null, con: null, int: null, wis: null, cha: null,
+})
 
 const form = reactive({
   characterName: '',
@@ -114,6 +149,13 @@ const overlayUrl = computed(() => {
 
 onMounted(() => {
   loadConfig()
+  loadStats()
+  // populate statsForm from stored stats
+  Object.assign(statsForm, stats.value)
+  if (form.characterName) {
+    saved.value = true
+    testFetch()
+  }
   form.characterName = config.value.characterName
   form.server = config.value.server
   if (form.characterName) {
@@ -126,6 +168,10 @@ function handleSave() {
   saveConfig({ characterName: form.characterName.trim(), server: form.server })
   saved.value = true
   testFetch()
+}
+
+function handleStatsSave() {
+  saveStats({ ...statsForm })
 }
 
 async function testFetch() {
@@ -324,6 +370,61 @@ body {
 .form-group input[type="text"]::placeholder {
   color: #5a4820;
   font-style: italic;
+}
+
+.form-section-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--parchment-dark);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--field-border);
+}
+
+.form-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 60px;
+  margin-bottom: 0;
+}
+
+.form-row .form-group input[type="number"] {
+  width: 100%;
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-radius: 3px;
+  color: var(--parchment);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.9rem;
+  padding: 0.65rem 0.5rem;
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-row .form-group input[type="number"]:focus {
+  outline: none;
+  border-color: var(--field-border-focus);
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.2);
+}
+
+/* hide number input spinners */
+.form-row .form-group input[type="number"]::-webkit-inner-spin-button,
+.form-row .form-group input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-row .form-group input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* ── Save button ──────────────────────────────────────── */

@@ -25,6 +25,30 @@
           }}</span>
       </div>
       <div class="divider" />
+      <div class="char-stats-row">
+        <span v-if="stats.hp" class="stat-item"><span class="stat-label">HP</span> {{ stats.hp
+          }}</span>
+        <span v-if="stats.sp" class="stat-item"><span class="stat-label">SP</span> {{ stats.sp
+          }}</span>
+        <span v-if="stats.ac" class="stat-item"><span class="stat-label">AC</span> {{ stats.ac
+          }}</span>
+        <span v-if="stats.rp" class="stat-item"><span class="stat-label">RP</span> {{ stats.rp
+          }}</span>
+      </div>
+      <div class="char-stats-row">
+        <span v-if="stats.str" class="stat-item"><span class="stat-label">STR</span> {{ stats.str
+          }}</span>
+        <span v-if="stats.dex" class="stat-item"><span class="stat-label">DEX</span> {{ stats.dex
+          }}</span>
+        <span v-if="stats.con" class="stat-item"><span class="stat-label">CON</span> {{ stats.con
+          }}</span>
+        <span v-if="stats.int" class="stat-item"><span class="stat-label">INT</span> {{ stats.int
+          }}</span>
+        <span v-if="stats.wis" class="stat-item"><span class="stat-label">WIS</span> {{ stats.wis
+          }}</span>
+        <span v-if="stats.cha" class="stat-item"><span class="stat-label">CHA</span> {{ stats.cha
+          }}</span>
+      </div>
       <div class="char-footer">
         <span class="server-name">{{ config.server }}</span>
         <span class="online-pip" title="Online">●</span>
@@ -34,7 +58,8 @@
 </template>
 
 <script setup lang="ts">
-import { useOverlayConfig, useDDOCharacter } from '~/composables/useDDO'
+import { useOverlayConfig, useDDOCharacter, useOverlayStats } from '~/composables/useDDO'
+const { stats, loadStats } = useOverlayStats()
 
 const { config, loadConfig } = useOverlayConfig()
 const { character, loading, lastFetched, fetchCharacter } = useDDOCharacter()
@@ -97,12 +122,12 @@ body {
   background: transparent !important;
   overflow: hidden;
   width: 300px;
-  height: 90px;
+  height: 180px;
 }
 
 .overlay-root {
   width: 300px;
-  height: 90px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -116,7 +141,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90px;
+  height: 180px;
 }
 
 .rune-spin {
@@ -224,6 +249,34 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   flex-shrink: 2;
+}
+
+.char-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top: 0.15rem;
+}
+
+.stat-item {
+  font-family: 'Cormorant Unicase', serif;
+  font-size: 0.8rem;
+  color: #e2d4a8;
+  flex-shrink: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.stat-label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.58rem;
+  color: #c9a84c;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* ── Footer row ──────────────────────────────────────── */

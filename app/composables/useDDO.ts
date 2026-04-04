@@ -111,3 +111,45 @@ export function useDDOCharacter() {
 
   return { character, loading, error, lastFetched, fetchCharacter }
 }
+
+export interface DDOStats {
+  hp: number | null
+  sp: number | null
+  ac: number | null
+  rp: number | null
+  str: number | null
+  dex: number | null
+  con: number | null
+  int: number | null
+  wis: number | null
+  cha: number | null
+}
+
+const STATS_KEY = 'ddo-overlay-stats'
+
+export function useOverlayStats() {
+  const stats = useState<DDOStats>('overlay-stats', () => ({
+    hp: null, sp: null, ac: null, rp: null,
+    str: null, dex: null, con: null, int: null, wis: null, cha: null,
+  }))
+
+  function loadStats() {
+    if (!import.meta.client) return
+    const stored = localStorage.getItem(STATS_KEY)
+    if (stored) {
+      try {
+        stats.value = JSON.parse(stored) as DDOStats
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  function saveStats(newStats: DDOStats) {
+    if (!import.meta.client) return
+    stats.value = newStats
+    localStorage.setItem(STATS_KEY, JSON.stringify(newStats))
+  }
+
+  return { stats, loadStats, saveStats }
+}
