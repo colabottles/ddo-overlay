@@ -31,7 +31,7 @@
       <div class="card-body">
         <div class="char-meta">
           <span v-if="character.total_level" class="char-level">
-            Lvl {{ character.total_level }}
+            Lvl: {{ character.total_level }}
           </span>
           <span v-if="formattedClasses" class="char-classes">
             {{ formattedClasses }}
