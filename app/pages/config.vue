@@ -57,7 +57,7 @@
           <div class="preview-name">{{ character.name }}</div>
           <div class="preview-meta">
             <span v-if="character.total_level" class="preview-level">
-              Level {{ character.total_level }}
+              Level {{ character.total_level }}:
             </span>
             <span v-if="character.classes?.length" class="preview-classes">
               {{ formatClasses(character.classes) }}

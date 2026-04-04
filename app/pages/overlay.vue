@@ -3,7 +3,7 @@
     <div v-if="loading && !character" class="overlay-card loading-card">
       <span class="corner corner-tl" /><span class="corner corner-tr" />
       <span class="corner corner-bl" /><span class="corner corner-br" />
-      <div class="rune-spin">᛭</div>
+      <div class="rune-spin">+</div>
     </div>
 
     <div v-else-if="!config.characterName" class="overlay-card error-card">
@@ -31,7 +31,7 @@
       <div class="card-body">
         <div class="char-meta">
           <span v-if="character.total_level" class="char-level">
-            Lvl: {{ character.total_level }}
+            Lvl {{ character.total_level }}
           </span>
           <span v-if="formattedClasses" class="char-classes">
             {{ formattedClasses }}
