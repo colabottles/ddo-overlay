@@ -83,10 +83,28 @@ const timeAgo = computed(() => {
 })
 
 onMounted(() => {
-  loadStats()
   const route = useRoute()
   const nameFromQuery = route.query.character as string
   const serverFromQuery = route.query.server as string
+
+  // read stats from query params
+  const parseParam = (val: unknown) => {
+    const n = Number(val)
+    return isNaN(n) || val === '' ? null : n
+  }
+
+  stats.value = {
+    hp: parseParam(route.query.hp),
+    sp: parseParam(route.query.sp),
+    ac: parseParam(route.query.ac),
+    rp: parseParam(route.query.rp),
+    str: parseParam(route.query.str),
+    dex: parseParam(route.query.dex),
+    con: parseParam(route.query.con),
+    int: parseParam(route.query.int),
+    wis: parseParam(route.query.wis),
+    cha: parseParam(route.query.cha),
+  }
 
   if (nameFromQuery && serverFromQuery) {
     config.value.characterName = nameFromQuery
@@ -97,6 +115,7 @@ onMounted(() => {
     }, POLL_INTERVAL)
   } else {
     loadConfig()
+    loadStats()
     if (config.value.characterName) {
       fetchCharacter(config.value.server, config.value.characterName)
       pollTimer = setInterval(() => {

@@ -144,7 +144,8 @@ const overlayUrl = computed(() => {
   const base = import.meta.client ? window.location.origin : ''
   const name = encodeURIComponent(form.characterName.trim())
   const server = encodeURIComponent(form.server)
-  return `${base}/overlay?character=${name}&server=${server}`
+  const s = statsForm
+  return `${base}/overlay?character=${name}&server=${server}&hp=${s.hp ?? ''}&sp=${s.sp ?? ''}&ac=${s.ac ?? ''}&rp=${s.rp ?? ''}&str=${s.str ?? ''}&dex=${s.dex ?? ''}&con=${s.con ?? ''}&int=${s.int ?? ''}&wis=${s.wis ?? ''}&cha=${s.cha ?? ''}`
 })
 
 onMounted(() => {
