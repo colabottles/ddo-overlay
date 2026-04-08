@@ -289,9 +289,9 @@ body {
 /* ── Two column grid ──────────────────────────────────── */
 .config-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 50vw;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   align-items: start;
 }
 
@@ -363,7 +363,6 @@ body {
   border: 1px solid var(--gold-dim);
   border-radius: 4px;
   padding: 2rem 1.75rem;
-  margin-bottom: 1.5rem;
 }
 
 .form-group {
@@ -468,7 +467,7 @@ body {
 
 .form-row {
   display: flex;
-  gap: 0.75rem;
+  gap: 1.3rem;
   margin-bottom: 1rem;
   flex-wrap: wrap;
 }
