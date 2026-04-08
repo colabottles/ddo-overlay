@@ -266,7 +266,6 @@ body {
 }
 
 .config-page {
-  min-height: 100vh;
   background:
     radial-gradient(ellipse at 20% 20%, rgba(201, 168, 76, 0.06) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 80%, rgba(139, 26, 26, 0.06) 0%, transparent 60%),
@@ -291,7 +290,7 @@ body {
 .config-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 0.5rem;
   margin-bottom: 1.5rem;
   align-items: start;
 }
@@ -319,16 +318,16 @@ body {
 /* ── Preview inner layout ─────────────────────────────── */
 .preview-inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, 400px);
   gap: 1.5rem;
   align-items: start;
 }
 
 .obs-instructions {
-  border-top: none;
-  padding-top: 0;
   border-left: 1px solid var(--field-border);
   padding-left: 1.5rem;
+  min-width: 450px;
+  max-width: 100%;
 }
 
 .sigil {
