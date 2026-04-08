@@ -286,7 +286,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* ── Two column grid ──────────────────────────────────── */
+/* Two column grid */
 .config-grid {
   display: grid;
   grid-template-columns: 350px 1fr;
@@ -295,7 +295,7 @@ body {
   align-items: start;
 }
 
-/* ── Tighten form padding to fit ──────────────────────── */
+/* Tighten form padding to fit */
 .config-form {
   padding: 1.5rem;
   margin-bottom: 0;
@@ -310,12 +310,12 @@ body {
   padding: 0.75rem 1rem;
 }
 
-/* ── Preview spans full width ─────────────────────────── */
+/* Preview spans full width */
 .preview-section {
   padding: 1.25rem 1.5rem;
 }
 
-/* ── Preview inner layout ─────────────────────────────── */
+/* Preview inner layout */
 .preview-inner {
   display: grid;
   grid-template-columns: repeat(auto-fit, 400px);
@@ -357,7 +357,7 @@ body {
   opacity: 0.85;
 }
 
-/* ── Form card ────────────────────────────────────────── */
+/* Form card */
 .config-form {
   background: var(--stone-light);
   border: 1px solid var(--gold-dim);
@@ -384,7 +384,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* ── Select ───────────────────────────────────────────── */
+/* Select */
 .select-wrap {
   position: relative;
 }
@@ -425,7 +425,7 @@ body {
   line-height: 1;
 }
 
-/* ── Text input ───────────────────────────────────────── */
+/* Text input */
 .form-group input[type="text"] {
   width: 100%;
   background: var(--field-bg);
@@ -509,7 +509,7 @@ body {
   appearance: textfield;
 }
 
-/* ── Save button ──────────────────────────────────────── */
+/* Save button */
 .btn-save {
   width: 100%;
   background: linear-gradient(180deg, #8a6a28 0%, #5a4418 100%);
@@ -550,7 +550,7 @@ body {
   opacity: 0.8;
 }
 
-/* ── Preview section ──────────────────────────────────── */
+/* Preview section */
 .preview-section {
   background: var(--stone-light);
   border: 1px solid var(--gold-dim);
@@ -684,7 +684,7 @@ body {
   color: #e09090;
 }
 
-/* ── OBS instructions ─────────────────────────────────── */
+/* OBS instructions */
 .obs-instructions {
   border-top: 1px solid var(--field-border);
   padding-top: 1.25rem;
