@@ -7,6 +7,36 @@
         <p class="config-subtitle">Configure your character display</p>
       </header>
 
+      <!-- Character / server form — always visible -->
+      <form class="config-form" @submit.prevent="handleSave">
+        <div class="form-group">
+          <label for="server">Server</label>
+          <div class="select-wrap">
+            <select id="server" v-model="form.server">
+              <option v-for="s in DDO_SERVERS" :key="s" :value="s">{{ s }}</option>
+            </select>
+            <span class="select-arrow">▾</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="charname">Character Name</label>
+          <input
+            id="charname"
+            v-model="form.characterName"
+            type="text"
+            placeholder="e.g. Zulkirjax"
+            autocomplete="off"
+            spellcheck="false" />
+        </div>
+
+        <button type="submit" class="btn-save" :disabled="!form.characterName.trim()">
+          <span class="btn-icon">✦</span>
+          Save & Preview
+        </button>
+      </form>
+
+      <!-- Stats form — always visible -->
       <form class="config-form" @submit.prevent="handleStatsSave">
         <div class="form-section-title">Character Stats</div>
 
@@ -62,36 +92,8 @@
         </button>
       </form>
 
-      <!-- Preview / test fetch -->
+      <!-- Preview — only shown after Save & Preview is clicked -->
       <div v-if="saved" class="preview-section">
-        <form class="config-form" @submit.prevent="handleSave">
-          <div class="form-group">
-            <label for="server">Server</label>
-            <div class="select-wrap">
-              <select id="server" v-model="form.server">
-                <option v-for="s in DDO_SERVERS" :key="s" :value="s">{{ s }}</option>
-              </select>
-              <span class="select-arrow">▾</span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="charname">Character Name</label>
-            <input
-              id="charname"
-              v-model="form.characterName"
-              type="text"
-              placeholder="e.g. Zulkirjax"
-              autocomplete="off"
-              spellcheck="false" />
-          </div>
-
-          <button type="submit" class="btn-save" :disabled="!form.characterName.trim()">
-            <span class="btn-icon">✦</span>
-            Save & Preview
-          </button>
-        </form>
-
         <div class="preview-header">
           <span class="preview-label">Live Preview</span>
           <button class="btn-refresh" @click="testFetch" :disabled="loading">
@@ -136,12 +138,13 @@
             <button class="btn-copy" @click="copyUrl">{{ copied ? '✓ Copied' : 'Copy' }}</button>
           </div>
           <ul class="obs-tips">
-            <li>Width: <strong>400</strong> &nbsp; Height: <strong>220</strong></li>
+            <li>Width: <strong>300</strong> &nbsp; Height: <strong>210</strong></li>
             <li>Check <strong>"Shutdown source when not visible"</strong></li>
             <li>Check <strong>"Refresh browser when scene becomes active"</strong></li>
           </ul>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -179,14 +182,9 @@ const overlayUrl = computed(() => {
 onMounted(() => {
   loadConfig()
   loadStats()
-  // populate statsForm from stored stats
-  Object.assign(statsForm, stats.value)
-  if (form.characterName) {
-    saved.value = true
-    testFetch()
-  }
   form.characterName = config.value.characterName
   form.server = config.value.server
+  Object.assign(statsForm, stats.value)
   if (form.characterName) {
     saved.value = true
     testFetch()
