@@ -64,6 +64,34 @@
 
       <!-- Preview / test fetch -->
       <div v-if="saved" class="preview-section">
+        <form class="config-form" @submit.prevent="handleSave">
+          <div class="form-group">
+            <label for="server">Server</label>
+            <div class="select-wrap">
+              <select id="server" v-model="form.server">
+                <option v-for="s in DDO_SERVERS" :key="s" :value="s">{{ s }}</option>
+              </select>
+              <span class="select-arrow">▾</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="charname">Character Name</label>
+            <input
+              id="charname"
+              v-model="form.characterName"
+              type="text"
+              placeholder="e.g. Zulkirjax"
+              autocomplete="off"
+              spellcheck="false" />
+          </div>
+
+          <button type="submit" class="btn-save" :disabled="!form.characterName.trim()">
+            <span class="btn-icon">✦</span>
+            Save & Preview
+          </button>
+        </form>
+
         <div class="preview-header">
           <span class="preview-label">Live Preview</span>
           <button class="btn-refresh" @click="testFetch" :disabled="loading">
