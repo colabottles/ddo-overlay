@@ -8,91 +8,101 @@
       </header>
 
       <!-- Character / server form — always visible -->
-      <form class="config-form" @submit.prevent="handleSave">
-        <div class="form-group">
-          <label for="server">Server</label>
-          <div class="select-wrap">
-            <select id="server" v-model="form.server">
-              <option v-for="s in DDO_SERVERS" :key="s" :value="s">{{ s }}</option>
-            </select>
-            <span class="select-arrow">▾</span>
+      <!-- Two column grid -->
+      <div class="config-grid">
+        <!-- Character / server form -->
+        <form class="config-form" @submit.prevent="handleSave">
+          <div class="form-group">
+            <label for="server">Server</label>
+            <div class="select-wrap">
+              <select id="server" v-model="form.server">
+                <option v-for="s in DDO_SERVERS" :key="s" :value="s">{{ s }}</option>
+              </select>
+              <span class="select-arrow">▾</span>
+            </div>
           </div>
-        </div>
 
-        <div class="form-group">
-          <label for="charname">Character Name</label>
-          <input
-            id="charname"
-            v-model="form.characterName"
-            type="text"
-            placeholder="e.g. Zulkirjax"
-            autocomplete="off"
-            spellcheck="false" />
-        </div>
+          <div class="form-group">
+            <label for="charname">Character Name</label>
+            <input
+              id="charname"
+              v-model="form.characterName"
+              type="text"
+              placeholder="e.g. Zulkirjax"
+              autocomplete="off"
+              spellcheck="false" />
+          </div>
 
-        <button type="submit" class="btn-save" :disabled="!form.characterName.trim()">
-          <span class="btn-icon">✦</span>
-          Save & Preview
-        </button>
-      </form>
+          <button type="submit" class="btn-save" :disabled="!form.characterName.trim()">
+            <span class="btn-icon">✦</span>
+            Save & Preview
+          </button>
+        </form>
 
-      <!-- Stats form — always visible -->
-      <form class="config-form" @submit.prevent="handleStatsSave">
-        <div class="form-section-title">Character Stats</div>
+        <!-- Stats form -->
+        <form class="config-form" @submit.prevent="handleStatsSave">
+          <div class="form-section-title">Character Stats</div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="hp">HP</label>
-            <input id="hp" v-model.number="statsForm.hp" type="number" min="0" placeholder="0" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="hp">HP</label>
+              <input id="hp" v-model.number="statsForm.hp" type="number" min="0" placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="sp">SP</label>
+              <input id="sp" v-model.number="statsForm.sp" type="number" min="0" placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="ac">AC</label>
+              <input id="ac" v-model.number="statsForm.ac" type="number" min="0" placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="rp">RP</label>
+              <input id="rp" v-model.number="statsForm.rp" type="number" min="0" placeholder="0" />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="sp">SP</label>
-            <input id="sp" v-model.number="statsForm.sp" type="number" min="0" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label for="ac">AC</label>
-            <input id="ac" v-model.number="statsForm.ac" type="number" min="0" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label for="rp">RP</label>
-            <input id="rp" v-model.number="statsForm.rp" type="number" min="0" placeholder="0" />
-          </div>
-        </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="str">STR</label>
-            <input id="str" v-model.number="statsForm.str" type="number" min="0" placeholder="0" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="str">STR</label>
+              <input id="str" v-model.number="statsForm.str" type="number" min="0"
+                placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="dex">DEX</label>
+              <input id="dex" v-model.number="statsForm.dex" type="number" min="0"
+                placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="con">CON</label>
+              <input id="con" v-model.number="statsForm.con" type="number" min="0"
+                placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="int">INT</label>
+              <input id="int" v-model.number="statsForm.int" type="number" min="0"
+                placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="wis">WIS</label>
+              <input id="wis" v-model.number="statsForm.wis" type="number" min="0"
+                placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="cha">CHA</label>
+              <input id="cha" v-model.number="statsForm.cha" type="number" min="0"
+                placeholder="0" />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="dex">DEX</label>
-            <input id="dex" v-model.number="statsForm.dex" type="number" min="0" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label for="con">CON</label>
-            <input id="con" v-model.number="statsForm.con" type="number" min="0" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label for="int">INT</label>
-            <input id="int" v-model.number="statsForm.int" type="number" min="0" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label for="wis">WIS</label>
-            <input id="wis" v-model.number="statsForm.wis" type="number" min="0" placeholder="0" />
-          </div>
-          <div class="form-group">
-            <label for="cha">CHA</label>
-            <input id="cha" v-model.number="statsForm.cha" type="number" min="0" placeholder="0" />
-          </div>
-        </div>
 
-        <button type="submit" class="btn-save">
-          <span class="btn-icon">✦</span>
-          Save Stats
-        </button>
-      </form>
+          <button type="submit" class="btn-save">
+            <span class="btn-icon">✦</span>
+            Save Stats
+          </button>
+        </form>
+      </div>
 
-      <!-- Preview — only shown after Save & Preview is clicked -->
+      <!-- Preview — full width below the grid -->
       <div v-if="saved" class="preview-section">
         <div class="preview-header">
           <span class="preview-label">Live Preview</span>
@@ -101,47 +111,51 @@
           </button>
         </div>
 
-        <div v-if="loading" class="preview-loading">
-          <span class="loading-rune">᛭</span>
-          Consulting the ethereal records…
-        </div>
+        <div class="preview-inner">
+          <div>
+            <div v-if="loading" class="preview-loading">
+              <span class="loading-rune">᛭</span>
+              Consulting the ethereal records…
+            </div>
 
-        <div v-else-if="error" class="preview-error">
-          <span>⚠</span> {{ error }}
-        </div>
+            <div v-else-if="error" class="preview-error">
+              <span>⚠</span> {{ error }}
+            </div>
 
-        <div v-else-if="character" class="preview-card">
-          <div class="preview-name">{{ character.name }}</div>
-          <div class="preview-meta">
-            <span v-if="character.total_level" class="preview-level">
-              Level {{ character.total_level }}:
-            </span>
-            <span v-if="character.classes?.length" class="preview-classes">
-              {{ formatClasses(character.classes) }}
-            </span>
+            <div v-else-if="character" class="preview-card">
+              <div class="preview-name">{{ character.name }}</div>
+              <div class="preview-meta">
+                <span v-if="character.total_level" class="preview-level">
+                  Level {{ character.total_level }}:
+                </span>
+                <span v-if="character.classes?.length" class="preview-classes">
+                  {{ formatClasses(character.classes) }}
+                </span>
+              </div>
+              <div v-if="character.guild_name" class="preview-guild">
+                ⚜ {{ character.guild_name }}
+              </div>
+              <div v-if="character.location?.name" class="preview-location">
+                ◈ {{ character.location.name }}
+              </div>
+              <div class="preview-online" :class="character.is_online ? 'online' : 'offline'">
+                {{ character.is_online ? '● Online' : '○ Offline' }}
+              </div>
+            </div>
           </div>
-          <div v-if="character.guild_name" class="preview-guild">
-            ⚜ {{ character.guild_name }}
-          </div>
-          <div v-if="character.location?.name" class="preview-location">
-            ◈ {{ character.location.name }}
-          </div>
-          <div class="preview-online" :class="character.is_online ? 'online' : 'offline'">
-            {{ character.is_online ? '● Online' : '○ Offline' }}
-          </div>
-        </div>
 
-        <div class="obs-instructions">
-          <h2>OBS Browser Source URL</h2>
-          <div class="obs-url">
-            <code>{{ overlayUrl }}</code>
-            <button class="btn-copy" @click="copyUrl">{{ copied ? '✓ Copied' : 'Copy' }}</button>
+          <div class="obs-instructions">
+            <h2>OBS Browser Source URL</h2>
+            <div class="obs-url">
+              <code>{{ overlayUrl }}</code>
+              <button class="btn-copy" @click="copyUrl">{{ copied ? '✓ Copied' : 'Copy' }}</button>
+            </div>
+            <ul class="obs-tips">
+              <li>Width: <strong>300</strong> &nbsp; Height: <strong>210</strong></li>
+              <li>Check <strong>"Shutdown source when not visible"</strong></li>
+              <li>Check <strong>"Refresh browser when scene becomes active"</strong></li>
+            </ul>
           </div>
-          <ul class="obs-tips">
-            <li>Width: <strong>300</strong> &nbsp; Height: <strong>210</strong></li>
-            <li>Check <strong>"Shutdown source when not visible"</strong></li>
-            <li>Check <strong>"Refresh browser when scene becomes active"</strong></li>
-          </ul>
         </div>
       </div>
 
@@ -260,18 +274,61 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 3rem 1.5rem;
+  padding: 2rem 1.5rem;
 }
 
 .config-container {
   width: 100%;
-  max-width: 480px;
+  max-width: 960px;
 }
 
-/* ── Header ───────────────────────────────────────────── */
 .config-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Two column grid ──────────────────────────────────── */
+.config-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  align-items: start;
+}
+
+/* ── Tighten form padding to fit ──────────────────────── */
+.config-form {
+  padding: 1.5rem;
+  margin-bottom: 0;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn-save {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+/* ── Preview spans full width ─────────────────────────── */
+.preview-section {
+  padding: 1.25rem 1.5rem;
+}
+
+/* ── Preview inner layout ─────────────────────────────── */
+.preview-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.obs-instructions {
+  border-top: none;
+  padding-top: 0;
+  border-left: 1px solid var(--field-border);
+  padding-left: 1.5rem;
 }
 
 .sigil {
