@@ -1,10 +1,13 @@
 export interface DDOCharacter {
   name: string
+  gender?: string
+  race?: string
   server_name: string
   guild_name?: string
   home_server_name?: string
   location_id?: number
-  area_name?: string  // populated by a second fetch
+  area_name?: string
+  area_region?: string
   classes?: Array<{
     name: string
     level: number
@@ -110,11 +113,12 @@ export function useDDOCharacter() {
               character.value = {
                 ...character.value,
                 area_name: area?.name ?? String(charData.location_id),
+                area_region: area?.region ?? '',
               }
             }
           }
         } catch {
-          // area fetch failed, just leave area_name undefined
+          // area fetch failed, leave area_name undefined
         }
       }
 

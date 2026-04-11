@@ -13,7 +13,15 @@
     </div>
 
     <div v-else-if="character" class="overlay-panel">
-      <div class="char-name">{{ character.name }}</div>
+      <div class="card-top">
+        <div class="char-name">{{ character.name }}</div>
+        <div class="char-identity" v-if="character.race || character.gender">
+          <span v-if="character.race" class="char-race">{{ character.race }}</span>
+          <span v-if="character.race && character.gender" class="sep">◆</span>
+          <span v-if="character.gender" class="char-gender">{{ character.gender }}</span>
+        </div>
+        <div class="online-pip" title="Online">●</div>
+      </div>
       <div class="divider" />
       <div class="char-detail">
         <span v-if="character.total_level" class="char-level">Lvl {{ character.total_level }}</span>
@@ -49,8 +57,10 @@
       <div class="divider" />
       <div class="char-footer">
         <span class="server-name">{{ config.server }}</span>
-        <span v-if="character.area_name" class="char-location">◈ {{ character.area_name }}</span>
-        <span class="online-pip" title="Online">●</span>
+        <span v-if="character.area_name" class="char-location">
+          ◈ {{ character.area_name }}<span v-if="character.area_region"> · {{ character.area_region
+            }}</span>
+        </span>
       </div>
     </div>
   </div>
@@ -218,6 +228,28 @@ body {
 }
 
 /* ── Detail row ──────────────────────────────────────── */
+.card-top {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.char-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.char-race,
+.char-gender {
+  font-family: 'Cormorant Unicase', serif;
+  font-size: 0.78rem;
+  color: #b0a070;
+  font-style: italic;
+}
+
 .char-detail {
   display: flex;
   align-items: center;

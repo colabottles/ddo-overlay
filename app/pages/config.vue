@@ -138,8 +138,9 @@
               <div v-if="character.area_name" class="preview-location">
                 ◈ {{ character.area_name }}
               </div>
-              <div class="preview-online" :class="character.is_online ? 'online' : 'offline'">
-                {{ character.is_online ? '● Online' : '○ Offline' }}
+              <div v-if="character.area_name" class="preview-location">
+                ◈ {{ character.area_name }}<span v-if="character.area_region"> · {{
+                  character.area_region }}</span>
               </div>
             </div>
           </div>
