@@ -189,7 +189,7 @@
               <button class="btn-copy" @click="copyUrl">{{ copied ? '✓ Copied' : 'Copy' }}</button>
             </div>
             <ul class="obs-tips">
-              <li>Width: <strong>300</strong> &nbsp; Height: <strong>210</strong></li>
+              <li>Width: <strong>300</strong> &nbsp; Height: <strong>180</strong></li>
               <li>Check <strong>"Shutdown source when not visible"</strong></li>
               <li>Check <strong>"Refresh browser when scene becomes active"</strong></li>
             </ul>

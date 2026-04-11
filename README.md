@@ -30,9 +30,9 @@ No redeployment needed. The overlay page reads from `localStorage` on mount.
 
 ## OBS Browser Source Settings
 
-- **URL**: `https://your-netlify-url.netlify.app/overlay`
-- **Width**: 400
-- **Height**: 220
+- **URL**: `https://ddooverlay.netlify.app/overlay`
+- **Width**: 300
+- **Height**: 180
 - ✅ Shutdown source when not visible
 - ✅ Refresh browser when scene becomes active
 - **Custom CSS**: *(leave blank — transparency is handled in the page)*
