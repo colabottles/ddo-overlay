@@ -21,10 +21,6 @@
         <span v-if="character.guild_name" class="sep">◆</span>
         <span v-if="character.guild_name" class="char-guild">{{ character.guild_name }}</span>
       </div>
-      <div v-if="character.area_name" class="char-location-row">
-        <span class="loc-icon">◈</span>
-        <span class="char-location">{{ character.area_name }}</span>
-      </div>
       <div class="divider" />
       <div class="char-stats-row">
         <span v-if="stats.hp" class="stat-item"><span class="stat-label">HP</span> {{ stats.hp
@@ -53,6 +49,7 @@
       <div class="divider" />
       <div class="char-footer">
         <span class="server-name">{{ config.server }}</span>
+        <span v-if="character.area_name" class="char-location">◈ {{ character.area_name }}</span>
         <span class="online-pip" title="Online">●</span>
       </div>
     </div>
@@ -144,12 +141,12 @@ body {
   background: transparent !important;
   overflow: hidden;
   width: 300px;
-  height: 210px;
+  height: 180px;
 }
 
 .overlay-root {
   width: 300px;
-  height: 210px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -265,28 +262,15 @@ body {
 }
 
 /* ── Location row ────────────────────────────────────── */
-.char-location-row {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-top: 0.15rem;
-  overflow: hidden;
-}
-
-.loc-icon {
-  font-size: 0.65rem;
-  color: rgba(201, 168, 76, 0.6);
-  flex-shrink: 0;
-}
-
 .char-location {
   font-family: 'Cormorant Unicase', serif;
-  font-size: 0.95rem;
+  font-size: 0.78rem;
   color: #b0a070;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
+  flex: 1;
+  text-align: center;
 }
 
 /* ── Stats rows ──────────────────────────────────────── */
@@ -324,6 +308,7 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-top: 0.15rem;
+  gap: 0.5rem;
 }
 
 .server-name {
