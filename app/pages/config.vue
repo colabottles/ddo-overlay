@@ -135,8 +135,8 @@
               <div v-if="character.guild_name" class="preview-guild">
                 ⚜ {{ character.guild_name }}
               </div>
-              <div v-if="character.location?.name" class="preview-location">
-                ◈ {{ character.location.name }}
+              <div v-if="character.area_name" class="preview-location">
+                ◈ {{ character.area_name }}
               </div>
               <div class="preview-online" :class="character.is_online ? 'online' : 'offline'">
                 {{ character.is_online ? '● Online' : '○ Offline' }}

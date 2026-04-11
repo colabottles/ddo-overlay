@@ -1,23 +1,19 @@
 export interface DDOCharacter {
   name: string
-  server: string
+  server_name: string
   guild_name?: string
-  home_server?: string
-  group?: {
-    name?: string
-    leader?: string
-  }
-  location?: {
-    name?: string
-    id?: number
-  }
+  home_server_name?: string
+  location_id?: number
+  area_name?: string  // populated by a second fetch
   classes?: Array<{
     name: string
     level: number
   }>
   total_level?: number
-  last_updated?: string
+  last_update?: string
   is_online?: boolean
+  is_anonymous?: boolean
+  is_in_party?: boolean
 }
 
 export interface OverlayConfig {
@@ -100,6 +96,28 @@ export function useDDOCharacter() {
         ...charData,
         is_online: charData.is_online ?? true,
       }
+
+      // fetch area name if we have a location_id
+      if (charData.location_id) {
+        try {
+          const areaRes = await fetch(
+            `https://api.ddoaudit.com/v1/areas/${charData.location_id}`
+          )
+          if (areaRes.ok) {
+            const areaData = await areaRes.json()
+            const area = areaData?.data ?? areaData
+            if (character.value) {
+              character.value = {
+                ...character.value,
+                area_name: area?.name ?? String(charData.location_id),
+              }
+            }
+          }
+        } catch {
+          // area fetch failed, just leave area_name undefined
+        }
+      }
+
       lastFetched.value = new Date()
     } catch (e) {
       error.value = 'Could not reach DDO Audit API.'

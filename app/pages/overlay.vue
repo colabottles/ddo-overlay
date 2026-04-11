@@ -21,9 +21,9 @@
         <span v-if="character.guild_name" class="sep">◆</span>
         <span v-if="character.guild_name" class="char-guild">{{ character.guild_name }}</span>
       </div>
-      <div v-if="character.location?.name" class="char-location-row">
+      <div v-if="character.area_name" class="char-location-row">
         <span class="loc-icon">◈</span>
-        <span class="char-location">{{ character.location.name }}</span>
+        <span class="char-location">{{ character.area_name }}</span>
       </div>
       <div class="divider" />
       <div class="char-stats-row">
