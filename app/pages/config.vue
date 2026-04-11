@@ -123,24 +123,61 @@
             </div>
 
             <div v-else-if="character" class="preview-card">
-              <div class="preview-name">{{ character.name }}</div>
+              <div class="preview-name">
+                {{ character.name }}
+                <span v-if="character.race || character.gender" class="preview-identity">
+                  <span v-if="character.race">{{ character.race }}</span>
+                  <span v-if="character.race && character.gender"> ◆ </span>
+                  <span v-if="character.gender">{{ character.gender }}</span>
+                </span>
+              </div>
+              <div class="preview-divider" />
               <div class="preview-meta">
                 <span v-if="character.total_level" class="preview-level">
-                  Level {{ character.total_level }}:
+                  Lvl {{ character.total_level }}
                 </span>
                 <span v-if="character.classes?.length" class="preview-classes">
                   {{ formatClasses(character.classes) }}
                 </span>
+                <span v-if="character.guild_name" class="preview-sep">◆</span>
+                <span v-if="character.guild_name" class="preview-guild">{{ character.guild_name
+                  }}</span>
               </div>
-              <div v-if="character.guild_name" class="preview-guild">
-                ⚜ {{ character.guild_name }}
+              <div class="preview-divider" />
+              <div class="preview-stats-row">
+                <span v-if="stats.hp !== null" class="preview-stat"><span
+                    class="preview-stat-label">HP</span> {{ stats.hp }}</span>
+                <span v-if="stats.sp !== null" class="preview-stat"><span
+                    class="preview-stat-label">SP</span> {{ stats.sp }}</span>
+                <span v-if="stats.ac !== null" class="preview-stat"><span
+                    class="preview-stat-label">AC</span> {{ stats.ac }}</span>
+                <span v-if="stats.rp !== null" class="preview-stat"><span
+                    class="preview-stat-label">RP</span> {{ stats.rp }}</span>
               </div>
-              <div v-if="character.area_name" class="preview-location">
-                ◈ {{ character.area_name }}
+              <div class="preview-stats-row">
+                <span v-if="stats.str !== null" class="preview-stat"><span
+                    class="preview-stat-label">STR</span> {{ stats.str }}</span>
+                <span v-if="stats.dex !== null" class="preview-stat"><span
+                    class="preview-stat-label">DEX</span> {{ stats.dex }}</span>
+                <span v-if="stats.con !== null" class="preview-stat"><span
+                    class="preview-stat-label">CON</span> {{ stats.con }}</span>
+                <span v-if="stats.int !== null" class="preview-stat"><span
+                    class="preview-stat-label">INT</span> {{ stats.int }}</span>
+                <span v-if="stats.wis !== null" class="preview-stat"><span
+                    class="preview-stat-label">WIS</span> {{ stats.wis }}</span>
+                <span v-if="stats.cha !== null" class="preview-stat"><span
+                    class="preview-stat-label">CHA</span> {{ stats.cha }}</span>
               </div>
-              <div v-if="character.area_name" class="preview-location">
-                ◈ {{ character.area_name }}<span v-if="character.area_region"> · {{
-                  character.area_region }}</span>
+              <div class="preview-divider" />
+              <div class="preview-footer">
+                <span class="preview-server">{{ form.server }}</span>
+                <span v-if="character.area_name" class="preview-location">
+                  ◈ {{ character.area_name }}<span v-if="character.area_region"> · {{
+                    character.area_region }}</span>
+                </span>
+                <span class="preview-online" :class="character.is_online ? 'online' : 'offline'">
+                  {{ character.is_online ? '●' : '○' }}
+                </span>
               </div>
             </div>
           </div>
@@ -649,32 +686,122 @@ body {
   margin-bottom: 0.3rem;
 }
 
+.preview-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(201, 168, 76, 0.5) 20%,
+      rgba(201, 168, 76, 0.5) 80%,
+      transparent 100%);
+  margin: 0.3rem 0;
+}
+
+.preview-identity {
+  font-family: 'Cormorant Unicase', serif;
+  font-size: 0.78rem;
+  color: #b0a070;
+  font-style: italic;
+  margin-left: 0.5rem;
+}
+
 .preview-meta {
   display: flex;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: 0.9rem;
   color: var(--parchment-dark);
-  margin-bottom: 0.4rem;
-  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+
+.preview-level {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.65rem;
+  color: #d4a84c;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.preview-classes {
+  font-family: 'Cormorant Unicase', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #e2d4a8;
+  flex-shrink: 0;
+}
+
+.preview-sep {
+  font-size: 0.4rem;
+  color: rgba(201, 168, 76, 0.6);
+  flex-shrink: 0;
 }
 
 .preview-guild {
-  font-size: 0.85rem;
-  color: var(--gold-dim);
+  font-family: 'Cormorant Unicase', serif;
   font-style: italic;
-  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  color: #c8a84c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+}
+
+.preview-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top: 0.15rem;
+}
+
+.preview-stat {
+  font-family: 'Cormorant Unicase', serif;
+  font-size: 0.85rem;
+  color: #e2d4a8;
+  flex-shrink: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.preview-stat-label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.58rem;
+  color: #c9a84c;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+
+.preview-server {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #a08840;
 }
 
 .preview-location {
-  font-size: 0.85rem;
-  color: var(--parchment-dark);
-  margin-bottom: 0.5rem;
-}
-
-.preview-online {
-  font-size: 0.75rem;
-  font-family: "Cinzel Decorative", serif;
-  letter-spacing: 0.05em;
+  font-family: 'Cormorant Unicase', serif;
+  font-size: 0.78rem;
+  color: #b0a070;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .preview-online.online {
@@ -682,7 +809,7 @@ body {
 }
 
 .preview-online.offline {
-  color: #e09090;
+  color: #c07070;
 }
 
 /* OBS instructions */
