@@ -330,7 +330,7 @@ body {
   grid-template-columns: 350px 1fr;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
-  align-items: start;
+  align-items: initial;
 }
 
 /* Tighten form padding to fit */
