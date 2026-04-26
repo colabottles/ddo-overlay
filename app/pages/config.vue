@@ -327,7 +327,7 @@ body {
 /* Two column grid */
 .config-grid {
   display: grid;
-  grid-template-columns: 350px 1fr;
+  grid-template-columns: 1fr 300px;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   align-items: initial;
@@ -356,7 +356,7 @@ body {
 /* Preview inner layout */
 .preview-inner {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 400px);
+  grid-template-columns: 1fr 400px;
   gap: 1.5rem;
   align-items: start;
 }
@@ -398,7 +398,7 @@ body {
 /* Form card */
 .config-form {
   background: var(--stone-light);
-  border: 1px solid var(--gold-dim);
+  border: 3px solid var(--gold-dim);
   border-radius: 4px;
   padding: 2rem 1.75rem;
 }
@@ -431,7 +431,7 @@ body {
   width: 100%;
   appearance: none;
   background: var(--field-bg);
-  border: 1px solid var(--field-border);
+  border: 3px solid var(--field-border);
   border-radius: 3px;
   color: var(--parchment);
   font-family: "Cormorant Unicase", serif;
@@ -467,7 +467,7 @@ body {
 .form-group input[type="text"] {
   width: 100%;
   background: var(--field-bg);
-  border: 1px solid var(--field-border);
+  border: 3px solid var(--field-border);
   border-radius: 3px;
   color: var(--parchment);
   font-family: "Cormorant Unicase", serif;
@@ -519,7 +519,7 @@ body {
 .form-row .form-group input[type="number"] {
   width: 100%;
   background: var(--field-bg);
-  border: 1px solid var(--field-border);
+  border: 3px solid var(--field-border);
   border-radius: 3px;
   color: var(--parchment);
   font-family: 'Cinzel Decorative', serif;
@@ -591,7 +591,7 @@ body {
 /* Preview section */
 .preview-section {
   background: var(--stone-light);
-  border: 1px solid var(--gold-dim);
+  border: 3px solid var(--gold-dim);
   border-radius: 4px;
   padding: 1.5rem 1.75rem;
 }
@@ -613,7 +613,7 @@ body {
 
 .btn-refresh {
   background: none;
-  border: 1px solid var(--field-border);
+  border: 3px solid var(--field-border);
   border-radius: 3px;
   color: var(--parchment-dark);
   font-family: "Cormorant Unicase", serif;
@@ -672,7 +672,7 @@ body {
 }
 
 .preview-card {
-  border: 1px solid var(--field-border);
+  border: 3px solid var(--field-border);
   border-radius: 3px;
   padding: 1rem;
   background: var(--field-bg);
@@ -814,7 +814,7 @@ body {
 
 /* OBS instructions */
 .obs-instructions {
-  border-top: 1px solid var(--field-border);
+  border-top: 3px solid var(--field-border);
   padding-top: 1.25rem;
 }
 
@@ -836,7 +836,7 @@ body {
 
 .obs-url code {
   background: var(--field-bg);
-  border: 1px solid var(--field-border);
+  border: 3px solid var(--field-border);
   border-radius: 3px;
   padding: 0.4rem 0.6rem;
   font-size: 0.78rem;
@@ -850,7 +850,7 @@ body {
 
 .btn-copy {
   background: none;
-  border: 1px solid var(--field-border);
+  border: 3px solid var(--field-border);
   border-radius: 3px;
   color: var(--parchment-dark);
   font-family: "Cinzel Decorative", serif;
