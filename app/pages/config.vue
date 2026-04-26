@@ -365,7 +365,7 @@ body {
 .obs-instructions {
   border-top: 3px solid var(--field-border);
   border-left: 3px solid var(--field-border);
-  padding: 1.25rem 0 1.5rem 0;
+  padding: 1.25rem 1.5rem;
 }
 
 .obs-instructions h2 {
@@ -859,8 +859,9 @@ body {
 
 .preview-server {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #a08840;
 }
