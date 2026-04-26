@@ -327,7 +327,7 @@ body {
 /* Two column grid */
 .config-grid {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 300px 1fr;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   align-items: initial;
@@ -361,11 +361,83 @@ body {
   align-items: start;
 }
 
+/* OBS instructions */
 .obs-instructions {
-  border-left: 1px solid var(--field-border);
-  padding-left: 1.5rem;
-  min-width: 450px;
-  max-width: 100%;
+  border-top: 3px solid var(--field-border);
+  border-left: 3px solid var(--field-border);
+  padding: 1.25rem 0 1.5rem 0;
+}
+
+.obs-instructions h2 {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--parchment-dark);
+  margin: 0 0 0.75rem;
+}
+
+.obs-url {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.obs-url code {
+  background: var(--field-bg);
+  border: 3px solid var(--field-border);
+  border-radius: 3px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.78rem;
+  color: var(--parchment-dark);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Courier New', monospace;
+}
+
+.btn-copy {
+  background: none;
+  border: 3px solid var(--field-border);
+  border-radius: 3px;
+  color: var(--parchment-dark);
+  font-family: "Cinzel Decorative", serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-copy:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+.btn-copy:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.4);
+}
+
+.obs-tips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--parchment-dark);
+  line-height: 2;
+}
+
+.obs-tips li::before {
+  content: '▸ ';
+  color: var(--gold-dim);
+}
+
+.obs-tips strong {
+  color: var(--parchment);
 }
 
 .sigil {
@@ -505,7 +577,7 @@ body {
 
 .form-row {
   display: flex;
-  gap: 1.3rem;
+  gap: 1.5rem;
   margin-bottom: 1rem;
   flex-wrap: wrap;
 }
@@ -798,7 +870,7 @@ body {
   font-size: 0.78rem;
   color: #b0a070;
   flex: 1;
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -810,83 +882,5 @@ body {
 
 .preview-online.offline {
   color: #c07070;
-}
-
-/* OBS instructions */
-.obs-instructions {
-  border-top: 3px solid var(--field-border);
-  padding-top: 1.25rem;
-}
-
-.obs-instructions h2 {
-  font-family: "Cinzel Decorative", serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--parchment-dark);
-  margin: 0 0 0.75rem;
-}
-
-.obs-url {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.obs-url code {
-  background: var(--field-bg);
-  border: 3px solid var(--field-border);
-  border-radius: 3px;
-  padding: 0.4rem 0.6rem;
-  font-size: 0.78rem;
-  color: var(--parchment-dark);
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: 'Courier New', monospace;
-}
-
-.btn-copy {
-  background: none;
-  border: 3px solid var(--field-border);
-  border-radius: 3px;
-  color: var(--parchment-dark);
-  font-family: "Cinzel Decorative", serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  padding: 0.4rem 0.75rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: border-color 0.2s, color 0.2s;
-}
-
-.btn-copy:hover {
-  border-color: var(--gold);
-  color: var(--gold-light);
-}
-
-.btn-copy:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.4);
-}
-
-.obs-tips {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--parchment-dark);
-  line-height: 2;
-}
-
-.obs-tips li::before {
-  content: '▸ ';
-  color: var(--gold-dim);
-}
-
-.obs-tips strong {
-  color: var(--parchment);
 }
 </style>
