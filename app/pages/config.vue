@@ -327,7 +327,7 @@ body {
 /* Two column grid */
 .config-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 500px 1fr;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   align-items: initial;

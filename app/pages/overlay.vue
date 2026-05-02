@@ -26,8 +26,9 @@
       <div class="char-detail">
         <span v-if="character.total_level" class="char-level">Lvl {{ character.total_level }}</span>
         <span v-if="formattedClasses" class="char-classes">{{ formattedClasses }}</span>
-        <span v-if="character.guild_name" class="sep">◆</span>
-        <span v-if="character.guild_name" class="char-guild">{{ character.guild_name }}</span>
+      </div>
+      <div v-if="character.guild_name" class="char-guild-row">
+        <span class="char-guild">{{ character.guild_name }}</span>
       </div>
       <div class="divider" />
       <div class="char-stats-row">
@@ -150,12 +151,12 @@ html,
 body {
   background: transparent !important;
   overflow: hidden;
-  width: 300px;
+  width: 600px;
   height: 180px;
 }
 
 .overlay-root {
-  width: 300px;
+  width: 600px;
   height: 180px;
   display: flex;
   align-items: center;
@@ -255,7 +256,6 @@ body {
   align-items: center;
   gap: 0.35rem;
   flex-wrap: nowrap;
-  overflow: hidden;
   white-space: nowrap;
 }
 
@@ -288,9 +288,12 @@ body {
   font-style: italic;
   font-size: 0.95rem;
   color: #c8a84c;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex-shrink: 1;
+}
+
+.char-guild-row {
+  display: flex;
+  align-items: center;
+  margin-top: 0.1rem;
 }
 
 /* ── Location row ────────────────────────────────────── */
@@ -299,8 +302,6 @@ body {
   font-size: 0.78rem;
   color: #b0a070;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   flex: 1;
   text-align: center;
 }
@@ -311,7 +312,6 @@ body {
   align-items: center;
   gap: 0.5rem;
   flex-wrap: nowrap;
-  overflow: hidden;
   white-space: nowrap;
   margin-top: 0.15rem;
 }
