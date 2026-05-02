@@ -139,9 +139,9 @@
                 <span v-if="character.classes?.length" class="preview-classes">
                   {{ formatClasses(character.classes) }}
                 </span>
-                <span v-if="character.guild_name" class="preview-sep">◆</span>
-                <span v-if="character.guild_name" class="preview-guild">{{ character.guild_name
-                  }}</span>
+              </div>
+              <div v-if="character.guild_name" class="preview-guild-row">
+                <span class="preview-guild">{{ character.guild_name }}</span>
               </div>
               <div class="preview-divider" />
               <div class="preview-stats-row">
@@ -171,12 +171,12 @@
               <div class="preview-divider" />
               <div class="preview-footer">
                 <span class="preview-server">{{ form.server }}</span>
+                <span class="preview-online" :class="character.is_online ? 'online' : 'offline'">
+                  {{ character.is_online ? '●' : '○' }}
+                </span>
                 <span v-if="character.area_name" class="preview-location">
                   ◈ {{ character.area_name }}<span v-if="character.area_region"> · {{
                     character.area_region }}</span>
-                </span>
-                <span class="preview-online" :class="character.is_online ? 'online' : 'offline'">
-                  {{ character.is_online ? '●' : '○' }}
                 </span>
               </div>
             </div>
@@ -189,7 +189,7 @@
               <button class="btn-copy" @click="copyUrl">{{ copied ? '✓ Copied' : 'Copy' }}</button>
             </div>
             <ul class="obs-tips">
-              <li>Width: <strong>300</strong> &nbsp; Height: <strong>180</strong></li>
+              <li>Width: <strong>600</strong> &nbsp; Height: <strong>210</strong></li>
               <li>Check <strong>"Shutdown source when not visible"</strong></li>
               <li>Check <strong>"Refresh browser when scene becomes active"</strong></li>
             </ul>
@@ -327,7 +327,7 @@ body {
 /* Two column grid */
 .config-grid {
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 400px 1fr;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   align-items: initial;
@@ -356,7 +356,7 @@ body {
 /* Preview inner layout */
 .preview-inner {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 350px;
   gap: 1.5rem;
   align-items: start;
 }
@@ -816,9 +816,12 @@ body {
   font-style: italic;
   font-size: 0.85rem;
   color: #c8a84c;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex-shrink: 1;
+}
+
+.preview-guild-row {
+  display: flex;
+  align-items: center;
+  margin-top: 0.1rem;
 }
 
 .preview-stats-row {

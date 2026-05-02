@@ -20,7 +20,6 @@
           <span v-if="character.race && character.gender" class="sep">◆</span>
           <span v-if="character.gender" class="char-gender">{{ character.gender }}</span>
         </div>
-        <div class="online-pip" title="Online">●</div>
       </div>
       <div class="divider" />
       <div class="char-detail">
@@ -58,6 +57,7 @@
       <div class="divider" />
       <div class="char-footer">
         <span class="server-name">{{ config.server }}</span>
+        <div class="online-pip" title="Online">●</div>
         <span v-if="character.area_name" class="char-location">
           ◈ {{ character.area_name }}<span v-if="character.area_region"> · {{ character.area_region
             }}</span>
@@ -356,6 +356,7 @@ body {
   color: #7ac97a;
   text-shadow: 0 0 5px rgba(122, 201, 122, 0.8);
   animation: pulse 2.5s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 .offline-tag {
