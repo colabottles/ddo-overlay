@@ -152,12 +152,12 @@ body {
   background: transparent !important;
   overflow: hidden;
   width: 600px;
-  height: 180px;
+  height: 210px;
 }
 
 .overlay-root {
   width: 600px;
-  height: 180px;
+  height: 210px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
