@@ -2,10 +2,6 @@
   command = "npx nuxt generate"
   publish = "dist"
 
-[build.environment]
-  NODE_VERSION = "20"
-  SECRETS_SCAN_OMIT_PATHS = "src/app/environments"
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
