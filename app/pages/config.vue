@@ -214,7 +214,7 @@ const overlayUrl = computed(() => {
   const arch = encodeURIComponent(form.archetype.trim())
   const server = encodeURIComponent(form.server)
   const s = statsForm
-  return `${base}/overlay?character=${name}&lastname=${last}&server=${server}&hp=${s.hp ?? ''}&sp=${s.sp ?? ''}&ac=${s.ac ?? ''}&rp=${s.rp ?? ''}&str=${s.str ?? ''}&dex=${s.dex ?? ''}&con=${s.con ?? ''}&int=${s.int ?? ''}&wis=${s.wis ?? ''}&cha=${s.cha ?? ''}`
+  return `${base}/overlay?character=${name}&lastname=${last}&archetype=${arch}&server=${server}&hp=${s.hp ?? ''}&sp=${s.sp ?? ''}&ac=${s.ac ?? ''}&rp=${s.rp ?? ''}&str=${s.str ?? ''}&dex=${s.dex ?? ''}&con=${s.con ?? ''}&int=${s.int ?? ''}&wis=${s.wis ?? ''}&cha=${s.cha ?? ''}`
 })
 
 onMounted(() => {
@@ -331,18 +331,16 @@ body {
 }
 
 /* Rows */
-.top-row {
+.config-main {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
   gap: 1.5rem;
-  align-items: stretch;
 }
 
+.top-row,
 .bottom-row {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  gap: 1.5rem;
-  align-items: stretch;
+  display: contents;
 }
 
 .config-form {
