@@ -8,7 +8,6 @@
       </header>
 
       <main class="config-main">
-        <!-- Top row: character form + stats form -->
         <div class="top-row">
           <form class="config-form" @submit.prevent="handleSave" aria-label="Character settings">
             <div class="form-group">
@@ -28,7 +27,7 @@
                   id="charname"
                   v-model="form.characterName"
                   type="text"
-                  placeholder="e.g. ZulkirJax"
+                  placeholder="e.g. Icewinddale"
                   autocomplete="off"
                   spellcheck="false" />
               </div>
@@ -78,7 +77,6 @@
           </form>
         </div>
 
-        <!-- Bottom row: preview card + OBS instructions -->
         <div class="bottom-row" v-if="saved">
           <section class="config-form preview-section" aria-label="Live preview">
             <div class="preview-header">
@@ -164,7 +162,6 @@
           </section>
         </div>
 
-        <!-- Placeholder shown before first save -->
         <div v-else class="bottom-row">
           <div class="preview-placeholder" aria-hidden="true">
             <span class="placeholder-sigil">᛭</span>
@@ -318,17 +315,22 @@ body {
   font-size: 1rem;
 }
 
-/* Shared two-column rows */
-.top-row,
+/* Rows */
+.top-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
 .bottom-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: 1.5rem;
   align-items: start;
 }
 
 @media (max-width: 680px) {
-
   .top-row,
   .bottom-row {
     grid-template-columns: 1fr;
@@ -379,27 +381,10 @@ body {
   font-style: italic;
 }
 
-/* Name row — two equal columns */
 .name-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
-  min-width: 0;
-}
-
-.name-row .form-group {
-  min-width: 0;
-}
-
-.stats-block {
-  display: flex;
-  gap: 0.5rem;
-  min-width: 0;
-}
-
-.stat-group {
-  flex: 1;
-  min-width: 0;
 }
 
 /* Select */
@@ -407,18 +392,25 @@ body {
   position: relative;
 }
 
-.select-wrap select {
-  width: calc(100% - 2.6rem);
-  appearance: none;
+/* All inputs and select: border-box individually so width: 100% is safe */
+.form-group input[type="text"],
+.select-wrap select,
+.stat-group input[type="number"] {
+  box-sizing: border-box;
+  width: 100%;
   background: var(--field-bg);
   border: 2px solid var(--field-border);
   border-radius: 3px;
   color: var(--parchment);
-  font-family: 'Cormorant Unicase', serif;
   font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.select-wrap select {
+  appearance: none;
+  font-family: 'Cormorant Unicase', serif;
   padding: 0.6rem 2rem 0.6rem 0.6rem;
   cursor: pointer;
-  transition: border-color 0.2s;
 }
 
 .select-wrap select:focus {
@@ -437,17 +429,9 @@ body {
   font-size: 0.75rem;
 }
 
-/* Text inputs */
 .form-group input[type="text"] {
-  width: calc(100% - 1.2rem);
-  background: var(--field-bg);
-  border: 2px solid var(--field-border);
-  border-radius: 3px;
-  color: var(--parchment);
   font-family: 'Cormorant Unicase', serif;
-  font-size: 1rem;
   padding: 0.6rem 0.6rem;
-  transition: border-color 0.2s;
 }
 
 .form-group input[type="text"]:focus {
@@ -468,7 +452,8 @@ body {
 }
 
 .stat-group {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -484,16 +469,9 @@ body {
 }
 
 .stat-group input[type="number"] {
-  width: calc(100% - 0.5rem);
-  background: var(--field-bg);
-  border: 2px solid var(--field-border);
-  border-radius: 3px;
-  color: var(--parchment);
   font-family: 'Cinzel Decorative', serif;
-  font-size: 1rem;
   padding: 0.5rem 0.25rem;
   text-align: center;
-  transition: border-color 0.2s;
   -moz-appearance: textfield;
   appearance: textfield;
 }
@@ -610,6 +588,17 @@ body {
   }
 }
 
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
 .preview-error {
   color: #FF9999;
   padding: 0.5rem;
@@ -704,8 +693,8 @@ body {
 .preview-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
+  justify-content: flex-start;
+  gap: 0.75rem;
   margin-top: 0.15rem;
 }
 
@@ -715,14 +704,13 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #ffffff;
+  flex-shrink: 0;
 }
 
 .preview-location {
   font-family: 'Cormorant Unicase', serif;
   font-size: 0.85rem;
   color: var(--parchment);
-  flex: 1;
-  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -731,11 +719,14 @@ body {
 .preview-online.online {
   color: #90EE90;
   font-size: 0.6rem;
+  flex-shrink: 0;
+  animation: pulse 2.5s ease-in-out infinite;
 }
 
 .preview-online.offline {
   color: #FF9999;
   font-size: 0.6rem;
+  flex-shrink: 0;
 }
 
 /* OBS section */
@@ -753,19 +744,20 @@ body {
 }
 
 .obs-url code {
+  box-sizing: border-box;
+  min-width: 0;
+  flex: 1 1 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   background: var(--field-bg);
   border: 2px solid var(--field-border);
   border-radius: 3px;
   padding: 0.4rem 0.6rem;
-  min-width: 0;
-  width: calc(100% - 1.2rem);
   font-size: 0.85rem;
   color: var(--parchment-dim);
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   font-family: 'Courier New', monospace;
+  display: block;
 }
 
 .btn-copy {
@@ -780,6 +772,7 @@ body {
   cursor: pointer;
   white-space: nowrap;
   transition: border-color 0.2s, color 0.2s;
+  flex-shrink: 0;
 }
 
 .btn-copy:hover {
