@@ -616,6 +616,10 @@ body {
   }
 }
 
+.preview-section {
+  grid-column: 1 / 2;
+}
+
 .preview-error {
   color: #FF9999;
   padding: 0.5rem;
@@ -757,6 +761,7 @@ body {
 .obs-section {
   display: flex;
   flex-direction: column;
+  grid-column: 2 / 3;
   gap: 1rem;
 }
 
