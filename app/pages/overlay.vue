@@ -26,6 +26,7 @@
       <div class="char-detail">
         <span v-if="character.total_level" class="char-level">Lvl {{ character.total_level }}</span>
         <span v-if="formattedClasses" class="char-classes">{{ formattedClasses }}</span>
+        <span v-if="config.archetype" class="char-archetype">({{ config.archetype }})</span>
       </div>
       <div v-if="character.guild_name" class="char-guild-row">
         <span class="char-guild">{{ character.guild_name }}</span>
@@ -97,6 +98,11 @@ onMounted(() => {
   const lastNameFromQuery = route.query.lastname as string
   if (lastNameFromQuery) {
     config.value.lastName = lastNameFromQuery
+  }
+
+  const archetypeFromQuery = route.query.archetype as string
+  if (archetypeFromQuery) {
+    config.value.archetype = archetypeFromQuery
   }
 
   stats.value = {
@@ -243,6 +249,14 @@ body {
   font-size: 0.72rem;
   color: #F0E6C8;
   font-style: italic;
+}
+
+.char-archetype {
+  font-family: 'Cormorant Unicase', serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  color: #F0E6C8;
+  flex-shrink: 0;
 }
 
 /* Detail row */

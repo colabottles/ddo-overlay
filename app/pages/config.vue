@@ -41,6 +41,16 @@
                   autocomplete="off"
                   spellcheck="false" />
               </div>
+              <div class="form-group">
+                <label for="archetype">Archetype <span class="optional">(optional)</span></label>
+                <input
+                  id="archetype"
+                  v-model="form.archetype"
+                  type="text"
+                  placeholder="e.g. Daggertooth"
+                  autocomplete="off"
+                  spellcheck="false" />
+              </div>
             </div>
 
             <button type="submit" class="btn-save" :disabled="!form.characterName.trim()">
@@ -112,6 +122,8 @@
                     character.total_level }}</span>
                   <span v-if="character.classes?.length" class="preview-classes">{{
                     formatClasses(character.classes) }}</span>
+                  <span v-if="form.archetype" class="preview-archetype">({{ form.archetype
+                    }})</span>
                 </div>
                 <div v-if="character.guild_name" class="preview-guild-row">
                   <span class="preview-guild">{{ character.guild_name }}</span>
@@ -188,6 +200,7 @@ const statsForm = reactive<DDOStats>({
 const form = reactive({
   characterName: '',
   lastName: '',
+  archetype: '',
   server: 'Shadowdale' as string,
 })
 
@@ -198,6 +211,7 @@ const overlayUrl = computed(() => {
   const base = import.meta.client ? window.location.origin : ''
   const name = encodeURIComponent(form.characterName.trim())
   const last = encodeURIComponent(form.lastName.trim())
+  const arch = encodeURIComponent(form.archetype.trim())
   const server = encodeURIComponent(form.server)
   const s = statsForm
   return `${base}/overlay?character=${name}&lastname=${last}&server=${server}&hp=${s.hp ?? ''}&sp=${s.sp ?? ''}&ac=${s.ac ?? ''}&rp=${s.rp ?? ''}&str=${s.str ?? ''}&dex=${s.dex ?? ''}&con=${s.con ?? ''}&int=${s.int ?? ''}&wis=${s.wis ?? ''}&cha=${s.cha ?? ''}`
@@ -208,6 +222,7 @@ onMounted(() => {
   loadStats()
   form.characterName = config.value.characterName
   form.lastName = config.value.lastName ?? ''
+  form.archetype = config.value.archetype ?? ''
   form.server = config.value.server
   Object.assign(statsForm, stats.value)
   if (form.characterName) {
@@ -217,7 +232,7 @@ onMounted(() => {
 })
 
 function handleSave() {
-  saveConfig({ characterName: form.characterName.trim(), lastName: form.lastName.trim(), server: form.server })
+  saveConfig({ characterName: form.characterName.trim(), lastName: form.lastName.trim(), archetype: form.archetype.trim(), server: form.server })
   saved.value = true
   testFetch()
 }
@@ -648,6 +663,13 @@ body {
   font-family: 'Cormorant Unicase', serif;
   font-style: italic;
   font-size: 1rem;
+  color: var(--parchment);
+}
+
+.preview-archetype {
+  font-family: 'Cormorant Unicase', serif;
+  font-style: italic;
+  font-size: 0.85rem;
   color: var(--parchment);
 }
 

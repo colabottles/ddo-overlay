@@ -22,6 +22,7 @@ export interface DDOCharacter {
 export interface OverlayConfig {
   characterName: string
   lastName: string
+  archetype: string
   server: string
 }
 
@@ -40,6 +41,7 @@ export function useOverlayConfig() {
   const config = ref<OverlayConfig>({
     characterName: '',
     lastName: '',
+    archetype: '',
     server: 'Shadowdale',
   })
 
