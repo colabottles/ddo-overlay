@@ -14,7 +14,8 @@
 
     <div v-else-if="character" class="overlay-panel">
       <div class="card-top">
-        <div class="char-name">{{ character.name }}</div>
+        <div class="char-name">{{ character.name }}{{ config.lastName ? ' ' + config.lastName : ''
+          }}</div>
         <div class="char-identity" v-if="character.race || character.gender">
           <span v-if="character.race" class="char-race">{{ character.race }}</span>
           <span v-if="character.race && character.gender" class="sep">◆</span>
@@ -71,7 +72,7 @@
 import { useOverlayConfig, useDDOCharacter, useOverlayStats } from '~/composables/useDDO'
 
 const { config, loadConfig } = useOverlayConfig()
-const { character, loading, lastFetched, fetchCharacter } = useDDOCharacter()
+const { character, loading, fetchCharacter } = useDDOCharacter()
 const { stats, loadStats } = useOverlayStats()
 
 const POLL_INTERVAL = 45_000
@@ -83,22 +84,19 @@ const formattedClasses = computed(() => {
   return character.value.classes.map(c => `${c.name} ${c.level}`).join(' / ')
 })
 
-const timeAgo = computed(() => {
-  if (!lastFetched.value) return ''
-  const secs = Math.floor((Date.now() - lastFetched.value.getTime()) / 1000)
-  if (secs < 60) return `${secs}s ago`
-  return `${Math.floor(secs / 60)}m ago`
-})
-
 onMounted(() => {
   const route = useRoute()
   const nameFromQuery = route.query.character as string
   const serverFromQuery = route.query.server as string
 
-  // read stats from query params
   const parseParam = (val: unknown) => {
     const n = Number(val)
     return isNaN(n) || val === '' ? null : n
+  }
+
+  const lastNameFromQuery = route.query.lastname as string
+  if (lastNameFromQuery) {
+    config.value.lastName = lastNameFromQuery
   }
 
   stats.value = {
@@ -151,32 +149,32 @@ html,
 body {
   background: transparent !important;
   overflow: hidden;
-  width: 600px;
-  height: 210px;
+  width: 300px;
+  height: 280px;
 }
 
 .overlay-root {
-  width: 600px;
-  height: 210px;
+  width: 300px;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   background: transparent;
 }
 
-/* ── Empty / loading ─────────────────────────────────── */
+/* Empty / loading */
 .overlay-empty,
 .overlay-loading {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 210px;
+  height: 280px;
 }
 
 .rune-spin {
   font-size: 1rem;
-  color: rgba(201, 168, 76, 0.6);
+  color: #FFD97A;
   animation: spin 2s linear infinite;
 }
 
@@ -190,80 +188,77 @@ body {
   }
 }
 
-/* ── Main panel ──────────────────────────────────────── */
+/* Main panel */
 .overlay-panel {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 0;
   width: 100%;
-  padding: 0 0.5rem;
+  padding: 0.5rem 0.6rem;
 }
 
-/* ── Name ────────────────────────────────────────────── */
+/* Name */
 .char-name {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.04em;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.98);
   line-height: 1.3;
   white-space: nowrap;
 }
 
 .char-name.muted {
-  color: #a08840;
+  color: #FFD97A;
 }
 
-/* ── Thin gold divider line ──────────────────────────── */
+/* Divider */
 .divider {
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(201, 168, 76, 0.7) 20%,
-      rgba(201, 168, 76, 0.7) 80%,
-      transparent 100%);
+  background: rgba(255, 217, 122, 0.6);
   margin: 0.2rem 0;
 }
 
-/* ── Detail row ──────────────────────────────────────── */
+/* Top row */
 .card-top {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: 0.4rem;
   flex-wrap: nowrap;
 }
 
 .char-identity {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
   flex-shrink: 0;
 }
 
 .char-race,
 .char-gender {
   font-family: 'Cormorant Unicase', serif;
-  font-size: 0.78rem;
-  color: #b0a070;
+  font-size: 0.72rem;
+  color: #F0E6C8;
   font-style: italic;
 }
 
+/* Detail row */
 .char-detail {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   flex-wrap: nowrap;
   white-space: nowrap;
 }
 
 .char-level {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: #d4a84c;
+  color: #FFD97A;
   letter-spacing: 0.08em;
   flex-shrink: 0;
 }
@@ -271,23 +266,24 @@ body {
 .char-classes {
   font-family: 'Cormorant Unicase', serif;
   font-style: italic;
-  font-size: 1rem;
-  color: #e2d4a8;
+  font-size: 0.88rem;
+  color: #F0E6C8;
   flex-shrink: 0;
 }
 
 .sep {
-  font-size: 0.4rem;
-  color: rgba(201, 168, 76, 0.6);
+  font-size: 0.38rem;
+  color: #FFD97A;
   flex-shrink: 0;
   line-height: 1;
 }
 
+/* Guild */
 .char-guild {
   font-family: 'Cormorant Unicase', serif;
   font-style: italic;
-  font-size: 0.95rem;
-  color: #c8a84c;
+  font-size: 0.85rem;
+  color: #FFD97A;
 }
 
 .char-guild-row {
@@ -296,74 +292,73 @@ body {
   margin-top: 0.1rem;
 }
 
-/* ── Location row ────────────────────────────────────── */
+/* Location */
 .char-location {
   font-family: 'Cormorant Unicase', serif;
-  font-size: 0.78rem;
-  color: #b0a070;
+  font-size: 0.7rem;
+  color: #E8DDB8;
   white-space: nowrap;
   flex: 1;
   text-align: center;
 }
 
-/* ── Stats rows ──────────────────────────────────────── */
+/* Stats rows */
 .char-stats-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   flex-wrap: nowrap;
   white-space: nowrap;
-  margin-top: 0.15rem;
+  margin-top: 0.12rem;
 }
 
 .stat-item {
   font-family: 'Cormorant Unicase', serif;
-  font-size: 0.8rem;
-  color: #e2d4a8;
+  font-size: 0.75rem;
+  color: #F0E6C8;
   flex-shrink: 0;
   display: flex;
   align-items: baseline;
-  gap: 0.2rem;
+  gap: 0.15rem;
 }
 
 .stat-label {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.58rem;
-  color: #c9a84c;
+  font-size: 0.52rem;
+  color: #FFD97A;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* ── Footer row ──────────────────────────────────────── */
+/* Footer row */
 .char-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0.15rem;
-  gap: 0.5rem;
+  margin-top: 0.12rem;
+  gap: 0.4rem;
 }
 
 .server-name {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #ecebea;
+  color: #ffffff;
 }
 
 .online-pip {
   font-size: 0.5rem;
-  color: #7ac97a;
-  text-shadow: 0 0 5px rgba(122, 201, 122, 0.8);
+  color: #90EE90;
   animation: pulse 2.5s ease-in-out infinite;
   flex-shrink: 0;
 }
 
 .offline-tag {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   letter-spacing: 0.08em;
-  color: #c07070;
+  color: #FF9999;
 }
 
 @keyframes pulse {
@@ -374,7 +369,7 @@ body {
   }
 
   50% {
-    opacity: 0.3;
+    opacity: 0.4;
   }
 }
 </style>

@@ -21,6 +21,7 @@ export interface DDOCharacter {
 
 export interface OverlayConfig {
   characterName: string
+  lastName: string
   server: string
 }
 
@@ -36,10 +37,11 @@ export type DDOServer = typeof DDO_SERVERS[number]
 const CONFIG_KEY = 'ddo-overlay-config'
 
 export function useOverlayConfig() {
-  const config = useState<OverlayConfig>('overlay-config', () => ({
+  const config = ref<OverlayConfig>({
     characterName: '',
+    lastName: '',
     server: 'Shadowdale',
-  }))
+  })
 
   function loadConfig() {
     if (!import.meta.client) return
