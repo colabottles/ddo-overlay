@@ -149,12 +149,12 @@ html,
 body {
   background: transparent !important;
   overflow: hidden;
-  width: 300px;
+  width: 400px;
   height: 280px;
 }
 
 .overlay-root {
-  width: 300px;
+  width: 400px;
   height: 280px;
   display: flex;
   align-items: center;
