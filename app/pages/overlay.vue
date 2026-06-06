@@ -206,7 +206,7 @@ body {
 
 /* Name */
 .char-name {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
@@ -245,14 +245,14 @@ body {
 
 .char-race,
 .char-gender {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 0.72rem;
   color: #F0E6C8;
   font-style: italic;
 }
 
 .char-archetype {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-style: italic;
   font-size: 0.78rem;
   color: #F0E6C8;
@@ -269,7 +269,7 @@ body {
 }
 
 .char-level {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.78rem;
   font-weight: 600;
   color: #FFD97A;
@@ -278,7 +278,7 @@ body {
 }
 
 .char-classes {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-style: italic;
   font-size: 0.88rem;
   color: #F0E6C8;
@@ -294,7 +294,7 @@ body {
 
 /* Guild */
 .char-guild {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-style: italic;
   font-size: 0.85rem;
   color: #FFD97A;
@@ -308,7 +308,7 @@ body {
 
 /* Location */
 .char-location {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 0.7rem;
   color: #E8DDB8;
   white-space: nowrap;
@@ -327,7 +327,7 @@ body {
 }
 
 .stat-item {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 0.75rem;
   color: #F0E6C8;
   flex-shrink: 0;
@@ -337,7 +337,7 @@ body {
 }
 
 .stat-label {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.52rem;
   color: #FFD97A;
   letter-spacing: 0.08em;
@@ -354,7 +354,7 @@ body {
 }
 
 .server-name {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.68rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -369,7 +369,7 @@ body {
 }
 
 .offline-tag {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   color: #FF9999;

@@ -287,7 +287,7 @@ html,
 body {
   background: var(--stone);
   color: var(--parchment);
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 1rem;
 }
 
@@ -316,7 +316,7 @@ body {
 }
 
 .config-header h1 {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--gold);
@@ -335,7 +335,7 @@ body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   grid-template-rows: auto auto;
-  gap: 1.5rem;
+  gap: 4rem;
 }
 
 .top-row,
@@ -366,7 +366,7 @@ body {
 }
 
 .form-section-title {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -382,7 +382,7 @@ body {
 }
 
 .form-group label {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -390,7 +390,7 @@ body {
 }
 
 .optional {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 0.85rem;
   letter-spacing: 0;
   text-transform: none;
@@ -425,7 +425,7 @@ body {
 
 .select-wrap select {
   appearance: none;
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   padding: 0.6rem 2rem 0.6rem 0.6rem;
   cursor: pointer;
 }
@@ -447,7 +447,7 @@ body {
 }
 
 .form-group input[type="text"] {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   padding: 0.6rem 0.6rem;
 }
 
@@ -477,7 +477,7 @@ body {
 }
 
 .stat-group label {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -486,7 +486,7 @@ body {
 }
 
 .stat-group input[type="number"] {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   padding: 0.5rem 0.25rem;
   text-align: center;
   -moz-appearance: textfield;
@@ -512,7 +512,7 @@ body {
   border: 1px solid var(--gold-mid);
   border-radius: 3px;
   color: var(--parchment);
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 1rem;
   letter-spacing: 0.08em;
   padding: 0.75rem 0;
@@ -554,7 +554,7 @@ body {
   border: 2px solid var(--field-border);
   border-radius: 3px;
   color: var(--parchment-dim);
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 1rem;
   padding: 0.25rem 0.75rem;
   cursor: pointer;
@@ -629,14 +629,14 @@ body {
 }
 
 .preview-name {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 1.1rem;
   color: #ffffff;
   margin-bottom: 0.2rem;
 }
 
 .preview-identity {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 0.85rem;
   color: var(--parchment);
   font-style: italic;
@@ -659,21 +659,21 @@ body {
 }
 
 .preview-level {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.75rem;
   color: var(--gold);
   letter-spacing: 0.08em;
 }
 
 .preview-classes {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-style: italic;
   font-size: 1rem;
   color: var(--parchment);
 }
 
 .preview-archetype {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-style: italic;
   font-size: 0.85rem;
   color: var(--parchment);
@@ -686,7 +686,7 @@ body {
 }
 
 .preview-guild {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-style: italic;
   font-size: 1rem;
   color: var(--gold);
@@ -702,7 +702,7 @@ body {
 }
 
 .preview-stat {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 0.9rem;
   color: var(--parchment);
   display: flex;
@@ -711,7 +711,7 @@ body {
 }
 
 .preview-stat-label {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.6rem;
   color: var(--gold);
   letter-spacing: 0.08em;
@@ -727,7 +727,7 @@ body {
 }
 
 .preview-server {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -736,7 +736,7 @@ body {
 }
 
 .preview-location {
-  font-family: 'Cormorant Unicase', serif;
+  font-family: 'Bona Nova SC', serif;
   font-size: 0.85rem;
   color: var(--parchment);
   white-space: nowrap;
@@ -794,7 +794,7 @@ body {
   border: 2px solid var(--field-border);
   border-radius: 3px;
   color: var(--parchment-dim);
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Faculty Glyphic', serif;
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   padding: 0.4rem 0.75rem;
