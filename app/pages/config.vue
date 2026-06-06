@@ -8,8 +8,8 @@
       </header>
 
       <main class="config-main">
-        <!-- Left column: character + stats forms -->
-        <div class="forms-column">
+        <!-- Top row: character form + stats form -->
+        <div class="top-row">
           <form class="config-form" @submit.prevent="handleSave" aria-label="Character settings">
             <div class="form-group">
               <label for="server">Server</label>
@@ -21,14 +21,14 @@
               </div>
             </div>
 
-            <div class="form-row two-col">
+            <div class="name-row">
               <div class="form-group">
                 <label for="charname">Character Name</label>
                 <input
                   id="charname"
                   v-model="form.characterName"
                   type="text"
-                  placeholder="e.g. Icewinddale"
+                  placeholder="e.g. ZulkirJax"
                   autocomplete="off"
                   spellcheck="false" />
               </div>
@@ -50,12 +50,12 @@
             </button>
           </form>
 
-          <form class="config-form stats-form" @submit.prevent="handleStatsSave"
-            aria-label="Character stats">
+          <form class="config-form" @submit.prevent="handleStatsSave" aria-label="Character stats">
             <div class="form-section-title">Character Stats</div>
 
             <div class="stats-block">
-              <div class="form-group stat-group" v-for="stat in ['hp', 'sp', 'ac', 'rp']" :key="stat">
+              <div class="form-group stat-group" v-for="stat in ['hp', 'sp', 'ac', 'rp']"
+                :key="stat">
                 <label :for="stat">{{ stat.toUpperCase() }}</label>
                 <input :id="stat" v-model.number="statsForm[stat as keyof DDOStats]" type="number"
                   min="0" placeholder="0" />
@@ -78,11 +78,12 @@
           </form>
         </div>
 
-        <!-- Right column: preview + OBS -->
-        <div class="preview-column" v-if="saved">
-          <section class="preview-section" aria-label="Live preview">
+        <!-- Bottom row: preview card + OBS instructions -->
+        <div class="bottom-row" v-if="saved">
+          <section class="config-form preview-section" aria-label="Live preview">
             <div class="preview-header">
-              <span class="section-title">Live Preview</span>
+              <span class="form-section-title" style="border: none; padding: 0; margin: 0;">Live
+                Preview</span>
               <button class="btn-refresh" @click="testFetch" :disabled="loading">
                 {{ loading ? 'Fetching…' : '↺ Refresh' }}
               </button>
@@ -141,32 +142,34 @@
                   </span>
                   <span v-if="character.area_name" class="preview-location">
                     ◈ {{ character.area_name }}<span v-if="character.area_region"> · {{
-                      character.area_region }}</span>
+                      character.area_region
+                      }}</span>
                   </span>
                 </div>
               </template>
             </div>
+          </section>
 
-            <div class="obs-block">
-              <h2 class="section-title">OBS Browser Source URL</h2>
-              <div class="obs-url">
-                <code>{{ overlayUrl }}</code>
-                <button class="btn-copy" @click="copyUrl">{{ copied ? '✓ Copied' : 'Copy'
-                  }}</button>
-              </div>
-              <ul class="obs-tips">
-                <li>Width: <strong>300</strong> &nbsp; Height: <strong>280</strong></li>
-                <li>Check <strong>"Shutdown source when not visible"</strong></li>
-                <li>Check <strong>"Refresh browser when scene becomes active"</strong></li>
-              </ul>
+          <section class="config-form obs-section" aria-label="OBS browser source settings">
+            <h2 class="form-section-title">OBS Browser Source URL</h2>
+            <div class="obs-url">
+              <code>{{ overlayUrl }}</code>
+              <button class="btn-copy" @click="copyUrl">{{ copied ? '✓ Copied' : 'Copy' }}</button>
             </div>
+            <ul class="obs-tips">
+              <li>Width: <strong>300</strong> &nbsp; Height: <strong>280</strong></li>
+              <li>Check <strong>"Shutdown source when not visible"</strong></li>
+              <li>Check <strong>"Refresh browser when scene becomes active"</strong></li>
+            </ul>
           </section>
         </div>
 
-        <!-- Placeholder when not yet saved -->
-        <div v-else class="preview-placeholder" aria-hidden="true">
-          <span class="placeholder-sigil">᛭</span>
-          <p>Save a character to see the preview</p>
+        <!-- Placeholder shown before first save -->
+        <div v-else class="bottom-row">
+          <div class="preview-placeholder" aria-hidden="true">
+            <span class="placeholder-sigil">᛭</span>
+            <p>Save a character to see the preview</p>
+          </div>
         </div>
       </main>
     </div>
@@ -216,10 +219,6 @@ onMounted(() => {
   }
 })
 
-function statVal(key: string): number | null {
-  return stats.value[key as keyof DDOStats]
-}
-
 function handleSave() {
   saveConfig({ characterName: form.characterName.trim(), lastName: form.lastName.trim(), server: form.server })
   saved.value = true
@@ -236,6 +235,10 @@ async function testFetch() {
 
 function formatClasses(classes: Array<{ name: string; level: number }>) {
   return classes.map(c => `${c.name} ${c.level}`).join(' / ')
+}
+
+function statVal(key: string): number | null {
+  return stats.value[key as keyof DDOStats]
 }
 
 async function copyUrl() {
@@ -261,7 +264,6 @@ async function copyUrl() {
   --gold-dim: #7a6330;
   --parchment: #F0E6C8;
   --parchment-dim: #C8B98A;
-  --ink: #0e0b06;
   --stone: #1e1608;
   --stone-light: #2a1e0c;
   --field-bg: #120e07;
@@ -275,50 +277,39 @@ body {
   color: var(--parchment);
   font-family: 'Cormorant Unicase', serif;
   font-size: 1rem;
-  /* no scroll */
-  height: 100vh;
-  overflow: hidden;
 }
 
-/* Full-height page, no scroll */
 .config-page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 0.75rem 1.25rem;
+  padding: 2rem 1.5rem;
 }
 
 .config-container {
+  max-width: 960px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  width: 100%;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 /* Header */
 .config-header {
   text-align: center;
-  flex-shrink: 0;
-  padding-bottom: 0.4rem;
 }
 
 .sigil {
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: var(--gold);
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .config-header h1 {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--gold);
   letter-spacing: 0.04em;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.4rem;
 }
 
 .config-subtitle {
@@ -327,21 +318,21 @@ body {
   font-size: 1rem;
 }
 
-/* Main two-column layout, fills remaining height */
-.config-main {
+/* Shared two-column rows */
+.top-row,
+.bottom-row {
   display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: 0.75rem;
-  flex: 1;
-  min-height: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
 }
 
-/* Forms column */
-.forms-column {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-height: 0;
+@media (max-width: 680px) {
+
+  .top-row,
+  .bottom-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Shared form card */
@@ -349,16 +340,26 @@ body {
   background: var(--stone-light);
   border: 2px solid var(--gold-dim);
   border-radius: 4px;
-  padding: 1rem 1.25rem;
+  padding: 1.5rem 1.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 1rem;
+}
+
+.form-section-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--field-border);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.4rem;
 }
 
 .form-group label {
@@ -378,11 +379,11 @@ body {
   font-style: italic;
 }
 
-/* Two-col form row */
-.form-row.two-col {
+/* Name row — two equal columns */
+.name-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 /* Select */
@@ -399,7 +400,7 @@ body {
   color: var(--parchment);
   font-family: 'Cormorant Unicase', serif;
   font-size: 1rem;
-  padding: 0.5rem 2rem 0.5rem 0.6rem;
+  padding: 0.6rem 2rem 0.6rem 0.6rem;
   cursor: pointer;
   transition: border-color 0.2s;
 }
@@ -429,7 +430,7 @@ body {
   color: var(--parchment);
   font-family: 'Cormorant Unicase', serif;
   font-size: 1rem;
-  padding: 0.5rem 0.6rem;
+  padding: 0.6rem 0.6rem;
   transition: border-color 0.2s;
 }
 
@@ -444,17 +445,7 @@ body {
   font-style: italic;
 }
 
-/* Stats form */
-.form-section-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--parchment-dim);
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--field-border);
-}
-
+/* Stats */
 .stats-block {
   display: flex;
   gap: 0.5rem;
@@ -462,6 +453,9 @@ body {
 
 .stat-group {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
 .stat-group label {
@@ -481,10 +475,9 @@ body {
   color: var(--parchment);
   font-family: 'Cinzel Decorative', serif;
   font-size: 1rem;
-  padding: 0.4rem 0.25rem;
+  padding: 0.5rem 0.25rem;
   text-align: center;
   transition: border-color 0.2s;
-  /* hide spinners */
   -moz-appearance: textfield;
   appearance: textfield;
 }
@@ -511,14 +504,13 @@ body {
   font-family: 'Cinzel Decorative', serif;
   font-size: 1rem;
   letter-spacing: 0.08em;
-  padding: 0.6rem 0;
+  padding: 0.75rem 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   transition: background 0.2s;
-  margin-top: 0.2rem;
 }
 
 .btn-save:hover:not(:disabled) {
@@ -539,38 +531,11 @@ body {
   font-size: 0.65rem;
 }
 
-/* Preview column */
-.preview-column {
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.preview-section {
-  background: var(--stone-light);
-  border: 2px solid var(--gold-dim);
-  border-radius: 4px;
-  padding: 1rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  flex: 1;
-  min-height: 0;
-}
-
+/* Preview section */
 .preview-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
-}
-
-.section-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--parchment-dim);
 }
 
 .btn-refresh {
@@ -600,19 +565,16 @@ body {
   cursor: not-allowed;
 }
 
-/* Preview card */
 .preview-card {
+  background: var(--field-bg);
   border: 2px solid var(--field-border);
   border-radius: 3px;
-  padding: 0.75rem 1rem;
-  background: var(--field-bg);
-  flex-shrink: 0;
+  padding: 0.85rem 1rem;
 }
 
 .preview-loading {
   color: var(--gold-dim);
   font-style: italic;
-  font-size: 1rem;
 }
 
 .loading-rune {
@@ -634,7 +596,6 @@ body {
 
 .preview-error {
   color: #FF9999;
-  font-size: 1rem;
   padding: 0.5rem;
   border: 1px solid rgba(255, 100, 100, 0.3);
   border-radius: 3px;
@@ -648,19 +609,19 @@ body {
   margin-bottom: 0.2rem;
 }
 
-.preview-divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(255, 217, 122, 0.4);
-  margin: 0.25rem 0;
-}
-
 .preview-identity {
   font-family: 'Cormorant Unicase', serif;
   font-size: 0.85rem;
   color: var(--parchment);
   font-style: italic;
-  margin-left: 0.5rem;
+  margin-left: 0.4rem;
+}
+
+.preview-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 217, 122, 0.4);
+  margin: 0.3rem 0;
 }
 
 .preview-meta {
@@ -669,7 +630,6 @@ body {
   gap: 0.4rem;
   flex-wrap: nowrap;
   white-space: nowrap;
-  margin-bottom: 0;
 }
 
 .preview-level {
@@ -686,17 +646,17 @@ body {
   color: var(--parchment);
 }
 
+.preview-guild-row {
+  display: flex;
+  align-items: center;
+  margin-top: 0.1rem;
+}
+
 .preview-guild {
   font-family: 'Cormorant Unicase', serif;
   font-style: italic;
   font-size: 1rem;
   color: var(--gold);
-}
-
-.preview-guild-row {
-  display: flex;
-  align-items: center;
-  margin-top: 0.1rem;
 }
 
 .preview-stats-row {
@@ -762,12 +722,11 @@ body {
   font-size: 0.6rem;
 }
 
-/* OBS block */
-.obs-block {
-  flex-shrink: 0;
+/* OBS section */
+.obs-section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .obs-url {
@@ -780,7 +739,7 @@ body {
   background: var(--field-bg);
   border: 2px solid var(--field-border);
   border-radius: 3px;
-  padding: 0.35rem 0.6rem;
+  padding: 0.4rem 0.6rem;
   font-size: 0.85rem;
   color: var(--parchment-dim);
   flex: 1;
@@ -798,7 +757,7 @@ body {
   font-family: 'Cinzel Decorative', serif;
   font-size: 0.72rem;
   letter-spacing: 0.08em;
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.75rem;
   cursor: pointer;
   white-space: nowrap;
   transition: border-color 0.2s, color 0.2s;
@@ -820,7 +779,7 @@ body {
   margin: 0;
   font-size: 1rem;
   color: var(--parchment-dim);
-  line-height: 1.8;
+  line-height: 2;
 }
 
 .obs-tips li::before {
@@ -834,16 +793,17 @@ body {
 
 /* Placeholder */
 .preview-placeholder {
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
+  padding: 3rem;
   border: 2px dashed var(--gold-dim);
   border-radius: 4px;
   color: var(--gold-dim);
   font-style: italic;
-  font-size: 1rem;
 }
 
 .placeholder-sigil {
