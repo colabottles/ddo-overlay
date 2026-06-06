@@ -384,6 +384,22 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  min-width: 0;
+}
+
+.name-row .form-group {
+  min-width: 0;
+}
+
+.stats-block {
+  display: flex;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.stat-group {
+  flex: 1;
+  min-width: 0;
 }
 
 /* Select */
@@ -392,7 +408,7 @@ body {
 }
 
 .select-wrap select {
-  width: 100%;
+  width: calc(100% - 2.6rem);
   appearance: none;
   background: var(--field-bg);
   border: 2px solid var(--field-border);
@@ -423,7 +439,7 @@ body {
 
 /* Text inputs */
 .form-group input[type="text"] {
-  width: 100%;
+  width: calc(100% - 1.2rem);
   background: var(--field-bg);
   border: 2px solid var(--field-border);
   border-radius: 3px;
@@ -468,7 +484,7 @@ body {
 }
 
 .stat-group input[type="number"] {
-  width: 100%;
+  width: calc(100% - 0.5rem);
   background: var(--field-bg);
   border: 2px solid var(--field-border);
   border-radius: 3px;
@@ -733,6 +749,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .obs-url code {
@@ -740,6 +757,8 @@ body {
   border: 2px solid var(--field-border);
   border-radius: 3px;
   padding: 0.4rem 0.6rem;
+  min-width: 0;
+  width: calc(100% - 1.2rem);
   font-size: 0.85rem;
   color: var(--parchment-dim);
   flex: 1;
