@@ -296,7 +296,7 @@ body {
 }
 
 .config-container {
-  max-width: 960px;
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -402,6 +402,7 @@ body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
+  align-items: end;
 }
 
 /* Select */
@@ -444,6 +445,12 @@ body {
   color: var(--gold-dim);
   pointer-events: none;
   font-size: 0.75rem;
+}
+
+.form-group label {
+  min-height: 2.5rem;
+  display: flex;
+  align-items: flex-end;
 }
 
 .form-group input[type="text"] {
