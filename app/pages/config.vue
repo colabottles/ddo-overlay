@@ -651,7 +651,7 @@ body {
 }
 
 .preview-divider {
-  width: 100%;
+  width: 50%;
   height: 1px;
   background: rgba(255, 217, 122, 0.4);
   margin: 0.3rem 0;

@@ -222,7 +222,7 @@ body {
 
 /* Divider */
 .divider {
-  width: 100%;
+  width: 50%;
   height: 1px;
   background: rgba(255, 217, 122, 0.6);
   margin: 0.2rem 0;
@@ -376,7 +376,6 @@ body {
 }
 
 @keyframes pulse {
-
   0%,
   100% {
     opacity: 1;
