@@ -222,7 +222,7 @@ body {
 
 /* Divider */
 .divider {
-  width: 50%;
+  width: 75%;
   height: 1px;
   background: rgba(255, 217, 122, 0.6);
   margin: 0.2rem 0;
